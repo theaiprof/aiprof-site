@@ -1,0 +1,26 @@
+:root{--paper:#F6F3EC;--ink:#17202A;--ledger:#1E5A47;--marigold:#E39B2D;--card:#FFFFFF;--muted:#5A6270;--rule:#D8D2C4}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font:17px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans","Noto Sans Devanagari","Noto Sans Kannada",sans-serif}
+h1,h2,h3{font-family:"Iowan Old Style","Charter","Georgia",serif;line-height:1.2}
+h1{font-size:1.9rem;margin:.5rem 0}
+h2{font-size:1.35rem;margin:2.25rem 0 .5rem;padding-top:1rem;border-top:1px solid var(--rule)}
+h3{font-size:1.1rem;margin:.25rem 0}
+a{color:var(--ledger)}
+.wrap{max-width:760px;margin:0 auto;padding:0 16px}
+header.site{border-bottom:1px solid var(--rule);background:var(--paper)}
+.bar{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:4px 16px;padding-top:12px;padding-bottom:12px}
+.wm{font-family:"Iowan Old Style","Charter","Georgia",serif;font-weight:700;font-size:1.15rem;color:var(--ledger);text-decoration:none}
+nav a{display:inline-flex;align-items:center;min-height:48px;padding:0 8px;color:var(--ink);text-decoration:none;font-size:.95rem}
+nav a[aria-current]{color:var(--ledger);font-weight:600}
+.lead{padding:24px 0 8px}
+.cta{display:inline-flex;align-items:center;min-height:48px;padding:0 20px;border-radius:4px;background:var(--marigold);color:var(--ink);font-weight:700;text-decoration:none;margin-top:8px}
+.card{display:block;background:var(--card);border:1px solid var(--rule);border-radius:4px;padding:16px;margin:12px 0;color:var(--ink);text-decoration:none}
+.card:hover,.card:focus{border-color:var(--ledger)}
+.card h3{color:var(--ledger)}
+.card p{margin:.4rem 0}
+.tag{display:inline-block;font-size:.75rem;font-weight:600;letter-spacing:.02em;border:1px solid var(--ledger);color:var(--ledger);border-radius:4px;padding:1px 8px}
+.meta{color:var(--muted);font-size:.9rem}
+.three{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
+.three div{background:var(--card);border:1px solid var(--rule);border-radius:4px;padding:12px 16px}
+.three p{margin:.25rem 0;font-size:.95rem}
+footer.site{border-top:1px solid var(--rule);margin-top:40px;padding:16px 0 32px;font-size:.85rem;color:var(--muted)}
