@@ -1,0 +1,237 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Zero-Sum Trading — SIM-002</title>
+<meta name="description" content="A classroom investment-conviction simulation: students Fund or Divest a company before and after a team pitch, staking ₹1–15 Cr. Losers' stakes are redistributed to winners. Free, no login.">
+<style>
+:root{--paper:#F6F3EC;--ink:#17202A;--ledger:#1E5A47;--marigold:#E39B2D;--card:#FFFFFF;--muted:#5A6270;--rule:#D8D2C4}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font:17px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans","Noto Sans Devanagari","Noto Sans Kannada",sans-serif}
+h1,h2,h3{font-family:"Iowan Old Style","Charter","Georgia",serif;line-height:1.2}
+h1{font-size:1.75rem;margin:.25rem 0 .5rem}h2{font-size:1.35rem;margin:2rem 0 .5rem;padding-top:1rem;border-top:1px solid var(--rule)}h3{font-size:1.05rem;margin:1.25rem 0 .25rem}
+header,main,footer{max-width:760px;margin:0 auto;padding:0 16px}
+header{padding-top:16px}
+.wm{font-family:"Iowan Old Style","Charter","Georgia",serif;font-weight:700;color:var(--ledger);text-decoration:none}
+.meta{color:var(--muted);font-size:.9rem}
+.tags span{display:inline-block;border:1px solid var(--rule);border-radius:4px;padding:2px 8px;margin:0 4px 4px 0;font-size:.8rem;background:var(--card)}
+.cta{display:inline-flex;align-items:center;min-height:48px;padding:0 20px;border-radius:4px;background:var(--marigold);color:var(--ink);font-weight:700;text-decoration:none;margin:12px 0}
+nav.toc{background:var(--card);border:1px solid var(--rule);border-radius:4px;padding:12px 16px;margin:16px 0}
+nav.toc a{color:var(--ledger)}
+.box{background:var(--card);border:1px solid var(--rule);border-radius:4px;padding:12px 16px;margin:12px 0}
+.tbl{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:.9rem;background:var(--card)}
+th,td{border:1px solid var(--rule);padding:8px;text-align:left;vertical-align:top}
+th{background:var(--paper)}
+a{color:var(--ledger)}
+code{font-size:.9em}
+.print{min-height:48px;padding:0 16px;border:1px solid var(--ledger);background:#fff;color:var(--ledger);border-radius:4px;font:inherit;font-weight:600;cursor:pointer}
+footer{border-top:1px solid var(--rule);margin-top:32px;padding-top:12px;padding-bottom:24px;font-size:.85rem;color:var(--muted)}
+@media print{
+  body{background:#fff;font-size:11pt}.cta,.print,nav.toc,.noprint{display:none!important}
+  h2{break-before:page;border:none}h2:first-of-type{break-before:auto}
+  table{font-size:9.5pt}a{color:inherit;text-decoration:none}
+}
+</style>
+</head>
+<body>
+<header>
+  <a class="wm" href="/">The AI Prof</a>
+  <p class="meta">Simulations / SIM-002 · v1.0 · Finance / Strategy · UG &amp; PG · 1 session of 60–75 min per round</p>
+  <h1>Zero-Sum Trading</h1>
+  <p>Students take a position on a company — <strong>Fund</strong> or <strong>Divest</strong> — and size it from ₹1 to ₹15 Cr, once before a team's investment pitch and once after. Every rupee staked on the wrong side is paid to those on the right side, in proportion to their stakes. Changing sides costs conviction.</p>
+  <p class="tags"><span>Classroom, 15–120 students</span><span>Facilitator-run</span><span>Offline-capable</span><span>No login</span></p>
+  <a class="cta" href="play.html">Open the facilitator console</a>
+</header>
+<main>
+<nav class="toc" aria-label="On this page">
+  <a href="#theory">1 Theory</a> · <a href="#tool">2 Tool</a> · <a href="#reality">3 Reality</a> · <a href="#guide">Facilitator guide</a> · <a href="#brief">Student brief</a> · <a href="#rubric">Rubric</a> · <a href="#licence">Licence</a>
+</nav>
+
+<!-- ============ THEORY ============ -->
+<h2 id="theory">1 Theory</h2>
+<h3>Learning outcomes</h3>
+<p>By the end of a session, students should be able to:</p>
+<ol>
+  <li><strong>LO1</strong> State an investment thesis for a firm and identify the single strategic driver it rests on.</li>
+  <li><strong>LO2</strong> Size a position to the strength of the evidence, and explain the size chosen.</li>
+  <li><strong>LO3</strong> Distinguish belief revision driven by evidence from revision driven by persuasion or the crowd.</li>
+  <li><strong>LO4</strong> Explain why, in a zero-sum market, the return on being right depends on how many others are also right.</li>
+  <li><strong>LO5</strong> Separate decision quality from outcome when reviewing their own record.</li>
+</ol>
+<h3>Course mapping</h3>
+<div class="tbl"><table>
+<tr><th>Course</th><th>Topic the session illustrates</th><th>LOs</th></tr>
+<tr><td>Strategic Management</td><td>Evaluating corporate strategy; capital allocation; portfolio (fund / exit) decisions</td><td>1, 3</td></tr>
+<tr><td>Corporate Finance / Investment Analysis</td><td>Investment theses; position sizing; risk of conviction</td><td>1, 2, 4</td></tr>
+<tr><td>Behavioural Finance</td><td>Anchoring, herding, overconfidence, outcome bias</td><td>2, 3, 5</td></tr>
+<tr><td>Managerial Economics</td><td>Zero-sum games; parimutuel pricing; incentives and rule design</td><td>4</td></tr>
+</table></div>
+<h3>Mechanism</h3>
+<p>Payoffs follow a <strong>parimutuel</strong> rule, as in racetrack betting pools: the losing side's total stake forms a pool that is split among the winning side in proportion to each winner's stake. Your payoff for a correct call therefore falls as more of the class agrees with you. A contrarian who is right earns more than a member of a correct majority. The rule is strictly zero-sum across valid entries: every rupee won is a rupee lost by a classmate.</p>
+<p>The <strong>switching rule</strong> prices a change of mind. A student who changes side between the Pre and Post vote must raise the stake by at least ₹1 Cr (unless already at ₹15 Cr). Breaking this rule voids the entry and costs a ₹5 Cr penalty. The rule rewards changing your mind only when you are prepared to back the new view more heavily than the old one.</p>
+<h3>Further reading</h3>
+<ul class="meta">
+  <li>Thaler, R. H., &amp; Ziemba, W. T. (1988). Anomalies: Parimutuel betting markets: Racetracks and lotteries. <em>Journal of Economic Perspectives, 2</em>(2), 161–174.</li>
+  <li>Wolfers, J., &amp; Zitzewitz, E. (2004). Prediction markets. <em>Journal of Economic Perspectives, 18</em>(2), 107–126.</li>
+  <li>Kahneman, D., &amp; Tversky, A. (1979). Prospect theory: An analysis of decision under risk. <em>Econometrica, 47</em>(2), 263–291.</li>
+</ul>
+
+<!-- ============ TOOL ============ -->
+<h2 id="tool">2 Tool</h2>
+<p>The <a href="play.html">facilitator console</a> scores each round, keeps cumulative standings across rounds, and produces debrief data. It runs entirely in the browser: no account, no server, no data transmitted. It works on a phone and keeps working offline once loaded.</p>
+<div class="box">
+  <strong>What the console needs from you each round</strong>
+  <ul>
+    <li>Each student's Pre vote (stake + value) and Post vote (stake + value + strategic driver).</li>
+    <li>The verdict for the round: Fund or Divest.</li>
+  </ul>
+  <p class="meta">Collect votes however suits your room: paper slips typed in by a student volunteer, a show of hands recorded on a sheet, or your own institution's form exported to CSV. This site never collects them.</p>
+</div>
+<p>The scoring rules are a direct port of the classroom Colab engine (V2.4) and have been checked against a recorded class round: identical validity decisions, loss pool, P&amp;L and rank order for all 18 scored students.</p>
+
+<!-- ============ REALITY ============ -->
+<h2 id="reality">3 Reality</h2>
+<p>Real capital allocators face the same structure. A fund manager is paid for being right <em>and</em> for being right when the market is wrong; a consensus correct call earns little because it is already in the price. A board that reverses a strategic decision under pressure without stronger evidence than it had before is changing sides without raising its stake. Use the debrief (guide §6) to connect each round to a real decision the company made, and to what happened next.</p>
+
+<!-- ============ FACILITATOR GUIDE ============ -->
+<h2 id="guide">Facilitator guide</h2>
+<button class="print noprint" onclick="window.print()">Print this page</button>
+
+<h3>§1 Before the course</h3>
+<ul>
+  <li>Decide the number of rounds and announce it. Default: 10. Students must take part in at least 30% of rounds (3 of 10) to be ranked.</li>
+  <li>Pick one company per round. Each round needs a real Fund / Divest question with a defensible answer, e.g. "Should a long-term investor fund or divest from [company] given its last two years of strategy?"</li>
+  <li>Assign a presenting team per round (3–5 students). They argue one side, chosen by you or by them.</li>
+  <li>Open the console on the device you will use in class and click <em>Save rules</em> on the Setup tab.</li>
+</ul>
+
+<h3>§2 Roles</h3>
+<div class="tbl"><table>
+<tr><th>Role</th><th>Who</th><th>Does</th></tr>
+<tr><td>Facilitator</td><td>Teacher</td><td>Runs the clock, holds the sealed verdict, scores, leads debrief</td></tr>
+<tr><td>Presenting team</td><td>3–5 students</td><td>Pitches the case for one side; takes questions. Members also vote.</td></tr>
+<tr><td>Investors</td><td>All other students</td><td>Vote Pre and Post; record a strategic driver</td></tr>
+<tr><td>Recorder (optional)</td><td>1 student</td><td>Types paper votes into the console's quick-entry box</td></tr>
+</table></div>
+
+<h3>§3 Timing (one round)</h3>
+<div class="tbl"><table>
+<tr><th>Min</th><th>Step</th></tr>
+<tr><td>0–5</td><td>Introduce the company. Students read the 1-page case or fact sheet.</td></tr>
+<tr><td>5–8</td><td><strong>Pre vote.</strong> Each student records Roll No, stake (Fund / Divest), value (1–15).</td></tr>
+<tr><td>8–20</td><td>Presenting team pitch (8 min) + questions from the floor (4 min).</td></tr>
+<tr><td>20–24</td><td><strong>Post vote.</strong> Stake, value and the one strategic driver behind the decision.</td></tr>
+<tr><td>24–30</td><td>Enter votes, check entries, reveal verdict, show round results.</td></tr>
+<tr><td>30–50</td><td>Debrief (§6).</td></tr>
+</table></div>
+<p class="meta">First session: add 10 minutes to explain the rules with the worked example in the student brief.</p>
+
+<h3>§4 The verdict</h3>
+<p>The verdict decides who wins. It must be fixed <strong>before</strong> the Post vote and kept sealed (a folded slip or a written note) so that it cannot be bent towards the room. Three ways to set it:</p>
+<ol>
+  <li><strong>Ex-post record:</strong> pick a past decision whose outcome is known (e.g. share price or strategic result over the following 2–3 years) and use that outcome. Strongest option; hide the date range from students.</li>
+  <li><strong>Expert panel:</strong> two or three faculty judge the case on a stated criterion before class.</li>
+  <li><strong>Adjudication engine:</strong> the Reality Engine simulation (SIM-001, coming) can generate a reasoned verdict. Until it is published, use options 1 or 2.</li>
+</ol>
+<p>State in advance which method you use. Students will accept a verdict they disagree with far more readily than one they suspect was chosen after the vote.</p>
+
+<h3>§5 Scoring rules (as built into the console)</h3>
+<ol>
+  <li>A student is scored only if they appear in both Pre and Post. First entry per Roll No is kept.</li>
+  <li>Stake must be Fund or Divest; value must be a number from 1 to 15.</li>
+  <li><strong>Switching:</strong> if Pre and Post stakes differ, Post value must be at least Pre value + 1, unless Pre value was already 15.</li>
+  <li>Valid entries on the verdict side share the losing side's total Post stake in proportion to their Post value. Losers lose their Post value.</li>
+  <li>If all valid entries are on the same side, no money moves that round.</li>
+  <li>Breaking the switching rule voids the entry and costs ₹5 Cr. Other invalid entries score 0 (see the note below).</li>
+  <li>Round ranking: valid entries first, then score, then larger Post value, then Roll No.</li>
+  <li>Cumulative score = ₹100 Cr + sum of round P&amp;L. Displayed score cannot fall below 0. Students below the participation minimum are disqualified once all rounds are done.</li>
+</ol>
+<div class="box">
+  <strong>Known loopholes — decide your policy before Round 1</strong>
+  <ul>
+    <li><em>Invalid-entry escape:</em> under the default rules an out-of-range value (e.g. 0 or 16) scores 0, which beats losing. If your collection method does not block such values, set "Penalty applies to: All invalid entries" in Setup.</li>
+    <li><em>Abstaining after the pitch:</em> a student who skips the Post vote is simply not scored that round. Only the participation minimum limits this. Raise the minimum (e.g. 70%) if you see it used tactically.</li>
+  </ul>
+</div>
+
+<h3>§6 Debrief questions</h3>
+<p>Open the console's Debrief tab. It shows the share of the class on the verdict side before and after the pitch, how many switched and in which direction, average stake for winners vs losers, and the strategic drivers cited by each group.</p>
+<ol>
+  <li><strong>Persuasion vs evidence (LO3):</strong> The pitch moved the class from X% to Y% on the verdict side. What, specifically, changed minds? Was it new information or delivery?</li>
+  <li><strong>Sizing (LO2):</strong> Did winners stake more than losers? If not, what does that say about how well the class's confidence tracked the evidence?</li>
+  <li><strong>Zero-sum payoff (LO4):</strong> Compare the top earner's payoff with what they would have earned if the whole class had agreed with them. Why does the crowd reduce the reward for being right?</li>
+  <li><strong>Drivers (LO1):</strong> Which strategic driver did the winning side cite most? Is it the driver that actually explains the company's outcome?</li>
+  <li><strong>Decision vs outcome (LO5):</strong> Ask one student who lost to defend their reasoning, and one who won to name the strongest point against their own position. Was any loss a good decision? Was any win a lucky one?</li>
+  <li><strong>Reality link:</strong> What did the company's board actually decide, and what happened next?</li>
+</ol>
+
+<h3>§7 Low-resource variants</h3>
+<ul>
+  <li><strong>No student devices:</strong> paper slips (Roll No / stake / value; Post adds driver). A recorder types them into quick entry, one line per student.</li>
+  <li><strong>Large classes (60+):</strong> score teams of 3–4 as one investor; the team agrees one vote.</li>
+  <li><strong>No projector:</strong> read the top five and the class aggregates aloud; print the standings weekly.</li>
+</ul>
+
+<h3>§8 Privacy and data</h3>
+<p>The console stores the session only in the browser on your device. Nothing is uploaded. Use Roll Numbers rather than names. Download a backup (tab 5) after each class; clear the session at the end of the course.</p>
+
+<!-- ============ STUDENT BRIEF ============ -->
+<h2 id="brief">Student brief</h2>
+<button class="print noprint" onclick="window.print()">Print this page</button>
+<p>You are an investor with <strong>₹100 Cr</strong> of notional capital. In each round you decide whether a company deserves to be <strong>Funded</strong> or <strong>Divested</strong>, and how much to back that view.</p>
+<h3>Each round</h3>
+<ol>
+  <li><strong>Pre vote</strong> — after reading the case: Fund or Divest, and a value from ₹1 to ₹15 Cr.</li>
+  <li>Listen to the presenting team. Ask hard questions.</li>
+  <li><strong>Post vote</strong> — Fund or Divest, a value from ₹1 to ₹15 Cr, and the single strategic driver behind your decision.</li>
+  <li>The verdict, fixed before your Post vote, is revealed.</li>
+</ol>
+<h3>How you win or lose</h3>
+<ul>
+  <li>Only your Post vote earns or loses money.</li>
+  <li>If your Post stake is on the wrong side, you lose your Post value.</li>
+  <li>Everything the wrong side loses is shared among the right side, in proportion to how much each person staked.</li>
+  <li>The fewer people who agree with you, the more you earn when you are right.</li>
+</ul>
+<h3>Changing your mind</h3>
+<p>You may switch sides between Pre and Post, but your Post value must be <strong>at least ₹1 Cr higher</strong> than your Pre value (if your Pre value was ₹15 Cr, you may stay at 15). If you switch without raising your value, your entry is void and you lose <strong>₹5 Cr</strong>.</p>
+<h3>Worked example</h3>
+<div class="tbl"><table>
+<tr><th>Student</th><th>Pre</th><th>Post</th><th>Verdict: Divest</th><th>Round P&amp;L</th></tr>
+<tr><td>A</td><td>Divest 8</td><td>Divest 15</td><td>Right</td><td>+15/37 × 46 = <strong>+18.65</strong></td></tr>
+<tr><td>B</td><td>Fund 2</td><td>Divest 7</td><td>Right (valid switch: 7 ≥ 2+1)</td><td>+7/37 × 46 = <strong>+8.70</strong></td></tr>
+<tr><td>C</td><td>Fund 10</td><td>Fund 12</td><td>Wrong</td><td><strong>−12</strong></td></tr>
+<tr><td>D</td><td>Fund 7</td><td>Divest 5</td><td>Void (switched, value fell)</td><td><strong>−5</strong> penalty</td></tr>
+</table></div>
+<p class="meta">From a real class round: the right side staked ₹37 Cr in total, the wrong side ₹46 Cr.</p>
+<h3>Rules that get people</h3>
+<ul>
+  <li>Miss either vote and you are not scored that round. Take part in at least 3 of 10 rounds to be ranked.</li>
+  <li>Use your Roll Number exactly the same way every time.</li>
+  <li>The leaderboard is not your grade. See the rubric.</li>
+</ul>
+
+<!-- ============ RUBRIC ============ -->
+<h2 id="rubric">Assessment rubric</h2>
+<button class="print noprint" onclick="window.print()">Print this page</button>
+<p>The leaderboard rewards outcomes, which partly depend on luck and on what the rest of the class did. The rubric assesses <strong>decision quality</strong>. Students submit a short decision log (≤ 150 words per round) giving their Post position, the driver, and the evidence for it, plus one end-of-course reflection (≤ 600 words).</p>
+<div class="tbl"><table>
+<tr><th>Criterion (weight)</th><th>4 Excellent</th><th>3 Good</th><th>2 Developing</th><th>1 Weak</th></tr>
+<tr><td><strong>Thesis &amp; driver</strong> (30%) · LO1</td><td>Clear thesis resting on one decisive driver, supported by specific case evidence</td><td>Clear thesis; driver named but evidence general</td><td>Thesis present; driver unclear or several listed without priority</td><td>No identifiable thesis</td></tr>
+<tr><td><strong>Sizing rationale</strong> (20%) · LO2</td><td>Value explicitly linked to strength of evidence and to what could prove the thesis wrong</td><td>Value justified, link to evidence partial</td><td>Value stated with little justification</td><td>No justification</td></tr>
+<tr><td><strong>Belief revision</strong> (20%) · LO3</td><td>Any change (or refusal to change) after the pitch is explained by named evidence; distinguishes argument from delivery</td><td>Change explained, mostly by evidence</td><td>Change explained by the pitch in general terms or by the room</td><td>Change unexplained</td></tr>
+<tr><td><strong>Reflection</strong> (20%) · LO4, LO5</td><td>Separates good decisions from good outcomes using own record; explains the parimutuel payoff effect with an example</td><td>Separates decision from outcome; payoff effect mentioned</td><td>Mostly describes wins and losses</td><td>Restates the leaderboard</td></tr>
+<tr><td><strong>Participation</strong> (10%)</td><td>Valid entries in ≥ 80% of rounds</td><td>60–79%</td><td>30–59%</td><td>&lt; 30% (not ranked)</td></tr>
+</table></div>
+<p class="meta">Optional: award a small bonus (≤ 5% of the component) for final leaderboard position. Keep it small so that students are not rewarded for luck.</p>
+
+<!-- ============ LICENCE ============ -->
+<h2 id="licence">Licence</h2>
+<p>Text, guide, brief and rubric: <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a>. Console code: MIT. Reuse and adapt freely for non-commercial teaching; share adaptations under the same licence; credit "The AI Prof — aiprof.org.in".</p>
+<p class="meta">Version 1.0 (October 2026). Scoring engine ported from the classroom Colab notebook V2.4. Feedback: <a href="mailto:hey@aiprof.org.in">hey@aiprof.org.in</a></p>
+</main>
+<footer>The AI Prof · aiprof.org.in · No accounts, no analytics.</footer>
+</body>
+</html>

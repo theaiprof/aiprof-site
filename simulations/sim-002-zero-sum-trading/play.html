@@ -1,0 +1,475 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Zero-Sum Trading — Facilitator Console</title>
+<meta name="description" content="SIM-002 scoring console. Runs fully in the browser; no data leaves this device.">
+<style>
+:root{--paper:#F6F3EC;--ink:#17202A;--ledger:#1E5A47;--marigold:#E39B2D;--card:#FFFFFF;--muted:#5A6270;--rule:#D8D2C4;--bad:#9B2C2C;--good:#1E5A47}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans","Noto Sans Devanagari","Noto Sans Kannada",sans-serif}
+h1,h2,h3{font-family:"Iowan Old Style","Charter","Georgia",serif;line-height:1.2;margin:0 0 .5rem}
+h1{font-size:1.5rem}h2{font-size:1.2rem}h3{font-size:1rem}
+header,main{max-width:960px;margin:0 auto;padding:0 16px}
+header{padding-top:16px;padding-bottom:8px;border-bottom:1px solid var(--rule)}
+.wm{font-family:"Iowan Old Style","Charter","Georgia",serif;font-weight:700;color:var(--ledger);text-decoration:none}
+.sub{color:var(--muted);font-size:.875rem;margin:.25rem 0 0}
+nav.tabs{display:flex;gap:4px;overflow-x:auto;margin:12px 0}
+nav.tabs button{flex:0 0 auto}
+section.card{background:var(--card);border:1px solid var(--rule);border-radius:4px;padding:16px;margin:12px 0}
+label{display:block;font-size:.875rem;color:var(--muted);margin:.5rem 0 .25rem}
+input,select,textarea{width:100%;min-height:48px;padding:10px;border:1px solid var(--rule);border-radius:4px;font:inherit;background:#fff;color:var(--ink)}
+textarea{min-height:140px;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.875rem}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px}
+button{min-height:48px;padding:0 16px;border-radius:4px;border:1px solid var(--ledger);background:#fff;color:var(--ledger);font:inherit;font-weight:600;cursor:pointer}
+button.primary{background:var(--marigold);border-color:var(--marigold);color:var(--ink)}
+button.sel{background:var(--ledger);color:#fff}
+button:disabled{opacity:.45;cursor:not-allowed}
+.row{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.tbl{overflow-x:auto;border:1px solid var(--rule);border-radius:4px;margin-top:12px}
+table{border-collapse:collapse;width:100%;font-size:.875rem}
+th,td{padding:8px;border-bottom:1px solid var(--rule);text-align:left;white-space:nowrap}
+th{background:var(--paper);font-weight:600}
+td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
+.pos{color:var(--good)}.neg{color:var(--bad)}
+.note{font-size:.875rem;color:var(--muted)}
+.msg{padding:10px 12px;border-left:4px solid var(--ledger);background:var(--paper);margin-top:12px;font-size:.9rem}
+.msg.err{border-color:var(--bad)}
+.kpi{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:8px;margin-top:12px}
+.kpi div{border:1px solid var(--rule);border-radius:4px;padding:8px}
+.kpi b{display:block;font-size:1.25rem;font-variant-numeric:tabular-nums}
+.hidden{display:none}
+footer{max-width:960px;margin:24px auto;padding:16px;border-top:1px solid var(--rule);font-size:.8rem;color:var(--muted)}
+@media print{nav.tabs,.row,textarea,input,select,button,.noprint{display:none!important}section.card{border:none;padding:0}body{background:#fff}}
+</style>
+</head>
+<body>
+<header>
+  <a class="wm" href="/">The AI Prof</a>
+  <h1>Zero-Sum Trading — Facilitator Console</h1>
+  <p class="sub">SIM-002 · Scoring engine port of Colab V2.4 · Everything runs and stays on this device. <a href="./">Guide, brief and rubric</a></p>
+</header>
+<main>
+<nav class="tabs" role="tablist">
+  <button data-tab="setup" class="sel">1 Setup</button>
+  <button data-tab="round">2 Score a round</button>
+  <button data-tab="standings">3 Standings</button>
+  <button data-tab="debrief">4 Debrief data</button>
+  <button data-tab="data">5 Save / clear</button>
+</nav>
+
+<!-- SETUP -->
+<section class="card" id="tab-setup">
+  <h2>Session rules</h2>
+  <p class="note">Defaults reproduce the V2.4 classroom engine. Change before Round 1; changing mid-session rescoring is not supported.</p>
+  <div class="grid">
+    <div><label for="cfgName">Session name</label><input id="cfgName" placeholder="e.g. MBA Sem 3 Section A"></div>
+    <div><label for="cfgRounds">Total rounds (declared in advance)</label><input id="cfgRounds" type="number" min="1" value="10"></div>
+    <div><label for="cfgCap">Starting capital (₹ Cr)</label><input id="cfgCap" type="number" value="100"></div>
+    <div><label for="cfgMin">Value min (₹ Cr)</label><input id="cfgMin" type="number" value="1"></div>
+    <div><label for="cfgMax">Value max (₹ Cr)</label><input id="cfgMax" type="number" value="15"></div>
+    <div><label for="cfgPen">Switch penalty (₹ Cr)</label><input id="cfgPen" type="number" value="5"></div>
+    <div><label for="cfgPart">Minimum participation (%)</label><input id="cfgPart" type="number" value="30"></div>
+    <div><label for="cfgPenAll">Penalty applies to</label>
+      <select id="cfgPenAll"><option value="0">Switch-rule breaches only (V2.4)</option><option value="1">All invalid entries</option></select></div>
+  </div>
+  <div class="row"><button id="saveCfg" class="primary">Save rules</button></div>
+  <div id="cfgMsg"></div>
+</section>
+
+<!-- ROUND -->
+<section class="card hidden" id="tab-round">
+  <h2>Score a round</h2>
+  <div class="grid">
+    <div><label for="rId">Round ID (company / case)</label><input id="rId" placeholder="e.g. Reliance"></div>
+    <div><label for="rTeam">Presenting team</label><input id="rTeam" placeholder="optional"></div>
+  </div>
+  <h3 style="margin-top:16px">Entries</h3>
+  <p class="note">Either paste quick-entry lines, or load the Pre and Post CSVs exported from your own form or sheet. Header names follow the V2.4 sheets.</p>
+  <div class="row noprint">
+    <button data-mode="quick" class="sel" id="mQuick">Quick entry</button>
+    <button data-mode="csv" id="mCsv">Pre + Post CSV</button>
+    <button id="tplBtn">Download CSV templates</button>
+  </div>
+  <div id="quickBox">
+    <label for="quick">One student per line: roll, pre stake, pre value, post stake, post value, driver (optional). Leave post blank if the student did not vote post.</label>
+    <textarea id="quick" placeholder="23014, Divest, 8, Divest, 15, Strong alignment with target consumer behaviour&#10;23284, Fund, 4, Fund, 2"></textarea>
+  </div>
+  <div id="csvBox" class="hidden">
+    <label for="preFile">Pre CSV (Roll No, Team, Stake, Value)</label><input id="preFile" type="file" accept=".csv,text/csv">
+    <label for="postFile">Post CSV (Roll No, Presenting Team, Stake, Value, Strategic Driver)</label><input id="postFile" type="file" accept=".csv,text/csv">
+    <p class="note">Excel / Google Sheets: File → Download / Save as → CSV, one file per sheet.</p>
+  </div>
+  <div class="row"><button id="validateBtn">Check entries</button></div>
+  <div id="valOut"></div>
+  <div id="verdictBox" class="hidden">
+    <h3 style="margin-top:16px">Reveal verdict</h3>
+    <p class="note">Use the verdict sealed before the Post vote (see guide §4).</p>
+    <div class="row"><button data-v="Fund" class="vbtn">Verdict: Fund</button><button data-v="Divest" class="vbtn">Verdict: Divest</button></div>
+  </div>
+  <div id="roundOut"></div>
+  <div class="row hidden" id="commitRow"><button id="commitBtn" class="primary">Add round to standings</button><button id="roundCsv">Download round CSV</button></div>
+</section>
+
+<!-- STANDINGS -->
+<section class="card hidden" id="tab-standings">
+  <h2>Cumulative standings</h2>
+  <div id="standOut"></div>
+  <div class="row"><button id="standCsv">Download standings CSV</button><button onclick="window.print()">Print</button></div>
+</section>
+
+<!-- DEBRIEF -->
+<section class="card hidden" id="tab-debrief">
+  <h2>Debrief data</h2>
+  <label for="dbSel">Round</label><select id="dbSel"></select>
+  <div id="dbOut"></div>
+</section>
+
+<!-- DATA -->
+<section class="card hidden" id="tab-data">
+  <h2>Save / clear</h2>
+  <p class="note">The session is kept in this browser only (localStorage). It never leaves the device. Back it up to a file before switching devices or clearing the browser.</p>
+  <div class="row">
+    <button id="exportJson">Download session backup</button>
+    <label class="note" style="margin:0;align-self:center" for="importJson">Restore backup:</label>
+    <input id="importJson" type="file" accept=".json,application/json" style="max-width:280px">
+  </div>
+  <div class="row"><button id="undoRound">Remove last round</button><button id="clearAll">Clear all session data</button></div>
+  <div id="dataMsg"></div>
+</section>
+</main>
+<footer>
+  © The AI Prof · aiprof.org.in · Content CC BY-NC-SA 4.0 · Code MIT · No accounts, no analytics, no data transmitted.
+</footer>
+
+<!-- ENGINE: pure functions, no DOM. Mirrors Colab V2.4 cell by cell. -->
+<script id="engine">
+(function (root) {
+  'use strict';
+  var STANCES = ['Fund', 'Divest'];
+  var DEFAULTS = { totalRounds: 10, startCapital: 100, vMin: 1, vMax: 15, penalty: 5, partMin: 0.30, penaltyAllInvalid: false };
+
+  function norm(s) { return String(s == null ? '' : s).trim(); }
+  function num(v) { var s = norm(v); if (s === '') return NaN; var n = Number(s); return isFinite(n) ? n : NaN; }
+  function stance(v) { // V2.4 is exact-match after strip; we also accept case variants
+    var s = norm(v); for (var i = 0; i < STANCES.length; i++) if (s.toLowerCase() === STANCES[i].toLowerCase()) return STANCES[i];
+    return s;
+  }
+
+  // RFC-4180-ish CSV parser (quotes, commas, CRLF)
+  function parseCSV(text) {
+    var rows = [], row = [], f = '', q = false, i, c;
+    text = String(text).replace(/^\uFEFF/, '');
+    for (i = 0; i < text.length; i++) {
+      c = text[i];
+      if (q) { if (c === '"') { if (text[i + 1] === '"') { f += '"'; i++; } else q = false; } else f += c; }
+      else if (c === '"') q = true;
+      else if (c === ',') { row.push(f); f = ''; }
+      else if (c === '\n' || c === '\r') { if (c === '\r' && text[i + 1] === '\n') i++; row.push(f); rows.push(row); row = []; f = ''; }
+      else f += c;
+    }
+    if (f !== '' || row.length) { row.push(f); rows.push(row); }
+    return rows.filter(function (r) { return r.some(function (x) { return norm(x) !== ''; }); });
+  }
+
+  function findCol(headers, preds) {
+    var h = headers.map(function (x) { return norm(x).toLowerCase(); });
+    for (var p = 0; p < preds.length; p++) for (var i = 0; i < h.length; i++) if (preds[p](h[i])) return i;
+    return -1;
+  }
+  var eq = function (s) { return function (h) { return h === s; }; };
+  var starts = function (s) { return function (h) { return h.indexOf(s) === 0; }; };
+  var has = function (s) { return function (h) { return h.indexOf(s) !== -1; }; };
+
+  // Cell 3: load sheets -> records; keep FIRST entry per roll number
+  function sheetToRecords(text, kind) {
+    var rows = parseCSV(text); if (!rows.length) throw new Error(kind + ' file is empty.');
+    var H = rows[0];
+    var ci = {
+      roll: findCol(H, [eq('roll no'), starts('roll')]),
+      team: findCol(H, kind === 'Pre' ? [eq('team')] : [eq('presenting team'), has('team')]),
+      stake: findCol(H, [eq('stake')]),
+      value: findCol(H, [eq('value')]),
+      driver: kind === 'Post' ? findCol(H, [starts('select the primary strategic driver'), has('strategic driver'), has('driver')]) : -1
+    };
+    ['roll', 'stake', 'value'].forEach(function (k) { if (ci[k] < 0) throw new Error(kind + ' file: column "' + ({ roll: 'Roll No', stake: 'Stake', value: 'Value' })[k] + '" not found.'); });
+    var seen = {}, out = [];
+    rows.slice(1).forEach(function (r) {
+      var roll = norm(r[ci.roll]); if (!roll || seen[roll]) return; seen[roll] = 1;
+      out.push({ roll: roll, team: ci.team >= 0 ? norm(r[ci.team]) : '', stake: stance(r[ci.stake]), value: num(r[ci.value]), driver: ci.driver >= 0 ? norm(r[ci.driver]) : '' });
+    });
+    return out;
+  }
+
+  // Quick entry: roll, preStake, preValue, postStake, postValue, driver...
+  function quickToSheets(text) {
+    var pre = [], post = [], seenPre = {}, seenPost = {};
+    parseCSV(text).forEach(function (r) {
+      var roll = norm(r[0]); if (!roll || /^roll/i.test(roll)) return;
+      if (!seenPre[roll] && (norm(r[1]) || norm(r[2]))) { seenPre[roll] = 1; pre.push({ roll: roll, team: '', stake: stance(r[1]), value: num(r[2]), driver: '' }); }
+      if (!seenPost[roll] && (norm(r[3]) || norm(r[4]))) { seenPost[roll] = 1; post.push({ roll: roll, team: '', stake: stance(r[3]), value: num(r[4]), driver: norm(r.slice(5).join(',')) }); }
+    });
+    return { pre: pre, post: post };
+  }
+
+  // Cells 4-5: inner join + validity
+  function joinAndValidate(pre, post, cfg) {
+    cfg = Object.assign({}, DEFAULTS, cfg || {});
+    var postBy = {}; post.forEach(function (p) { postBy[p.roll] = p; });
+    var preBy = {}; pre.forEach(function (p) { preBy[p.roll] = p; });
+    var rows = [], onlyPre = [], onlyPost = [];
+    pre.forEach(function (a) {
+      var b = postBy[a.roll]; if (!b) { onlyPre.push(a.roll); return; }
+      var reasons = [];
+      if (STANCES.indexOf(a.stake) < 0) reasons.push('INVALID_PRE_STAKE: ' + a.stake);
+      if (STANCES.indexOf(b.stake) < 0) reasons.push('INVALID_POST_STAKE: ' + b.stake);
+      if (isNaN(a.value) || a.value < cfg.vMin || a.value > cfg.vMax) reasons.push('PRE_INV_OUT_OF_RANGE');
+      if (isNaN(b.value) || b.value < cfg.vMin || b.value > cfg.vMax) reasons.push('POST_INV_OUT_OF_RANGE');
+      if (!reasons.length && a.stake !== b.stake && a.value < cfg.vMax && b.value < a.value + 1) reasons.push('STAKE_CHANGE_INV_INSUFFICIENT');
+      rows.push({ roll: a.roll, teamPre: a.team, team: b.team, stakePre: a.stake, invPre: a.value, stakePost: b.stake, invPost: b.value, driver: b.driver, valid: reasons.length === 0, reasons: reasons });
+    });
+    post.forEach(function (b) { if (!preBy[b.roll]) onlyPost.push(b.roll); });
+    return { rows: rows, onlyPre: onlyPre, onlyPost: onlyPost };
+  }
+
+  // Cells 6-7: zero-sum (parimutuel) redistribution, penalties, ranking
+  function scoreRound(rows, verdict, cfg) {
+    cfg = Object.assign({}, DEFAULTS, cfg || {});
+    if (STANCES.indexOf(verdict) < 0) throw new Error('Verdict must be Fund or Divest.');
+    var valid = rows.filter(function (r) { return r.valid; });
+    var winners = valid.filter(function (r) { return r.stakePost === verdict; });
+    var losers = valid.filter(function (r) { return r.stakePost !== verdict; });
+    var lossPool = losers.reduce(function (s, r) { return s + r.invPost; }, 0);
+    var winInv = winners.reduce(function (s, r) { return s + r.invPost; }, 0);
+    var edge = null;
+    var allSame = valid.length > 0 && (winners.length === valid.length || losers.length === valid.length);
+    var noWinners = winners.length === 0 && losers.length > 0; // V2.4 Edge B (subsumed by A; kept for parity)
+    if (allSame) edge = 'A'; else if (noWinners) edge = 'B';
+
+    var out = rows.map(function (r) {
+      var aligned = r.valid ? r.stakePost === verdict : false, pnl = 0;
+      if (r.valid && !edge) pnl = aligned ? (r.invPost / winInv) * lossPool : -r.invPost;
+      if (!r.valid && (cfg.penaltyAllInvalid || r.reasons.indexOf('STAKE_CHANGE_INV_INSUFFICIENT') >= 0)) pnl = -cfg.penalty;
+      var raw = cfg.startCapital + pnl;
+      var avg = (isNaN(r.invPre) || isNaN(r.invPost)) ? null : (r.invPre + r.invPost) / 2;
+      return Object.assign({}, r, { aligned: aligned, pnl: pnl, raw: raw, displayed: Math.max(0, raw), avg: avg, switched: STANCES.indexOf(r.stakePre) >= 0 && STANCES.indexOf(r.stakePost) >= 0 && r.stakePre !== r.stakePost });
+    });
+    // Rank: valid first, raw desc, post value desc, roll asc
+    out.sort(function (a, b) {
+      if (a.valid !== b.valid) return a.valid ? -1 : 1;
+      if (b.raw !== a.raw) return b.raw - a.raw;
+      var pa = isNaN(a.invPost) ? -Infinity : a.invPost, pb = isNaN(b.invPost) ? -Infinity : b.invPost;
+      if (pb !== pa) return pb - pa;
+      return cmpRoll(a.roll, b.roll);
+    });
+    out.forEach(function (r, i) { r.rank = i + 1; });
+    var zeroSum = out.filter(function (r) { return r.valid; }).reduce(function (s, r) { return s + r.pnl; }, 0);
+    return { rows: out, verdict: verdict, lossPool: lossPool, winInv: winInv, winners: winners.length, losers: losers.length, edge: edge, zeroSumCheck: zeroSum };
+  }
+
+  function cmpRoll(a, b) { var na = Number(a), nb = Number(b); if (isFinite(na) && isFinite(nb)) return na - nb; return String(a).localeCompare(String(b)); }
+
+  // Cell 7.5: cumulative standings over committed rounds (one entry per roll per round ID; later overwrites)
+  function standings(rounds, cfg) {
+    cfg = Object.assign({}, DEFAULTS, cfg || {});
+    var byRoundRoll = {};
+    rounds.forEach(function (rd) { rd.rows.forEach(function (r) { byRoundRoll[rd.id + '\u0000' + r.roll] = { id: rd.id, r: r }; }); });
+    var agg = {};
+    Object.keys(byRoundRoll).forEach(function (k) {
+      var e = byRoundRoll[k], a = agg[e.r.roll] || (agg[e.r.roll] = { roll: e.r.roll, pnl: 0, rounds: {}, valid: 0, switches: 0 });
+      a.pnl += e.r.pnl; a.rounds[e.id] = 1; if (e.r.valid) a.valid++; if (e.r.switched) a.switches++;
+    });
+    var minReq = Math.ceil(cfg.totalRounds * cfg.partMin - 1e-9);
+    var roundsDone = {}; rounds.forEach(function (rd) { roundsDone[rd.id] = 1; });
+    var nDone = Object.keys(roundsDone).length;
+    var list = Object.keys(agg).map(function (k) {
+      var a = agg[k], n = Object.keys(a.rounds).length, raw = cfg.startCapital + a.pnl;
+      return { roll: a.roll, rounds: n, validRounds: a.valid, switches: a.switches, pnl: a.pnl, raw: raw, displayed: Math.max(0, raw), dq: nDone >= cfg.totalRounds && n < minReq, atRisk: n + (cfg.totalRounds - nDone) < minReq };
+    });
+    list.sort(function (a, b) { if (b.raw !== a.raw) return b.raw - a.raw; if (b.rounds !== a.rounds) return b.rounds - a.rounds; return cmpRoll(a.roll, b.roll); });
+    list.forEach(function (r, i) { r.rank = i + 1; });
+    return { rows: list, minReq: minReq, roundsDone: nDone, final: nDone >= cfg.totalRounds };
+  }
+
+  // Debrief descriptives
+  function debrief(round) {
+    var v = round.rows.filter(function (r) { return r.valid; });
+    var sw = v.filter(function (r) { return r.switched; });
+    var mean = function (a) { return a.length ? a.reduce(function (s, x) { return s + x; }, 0) / a.length : null; };
+    var drivers = {};
+    v.forEach(function (r) { var d = r.driver || '(none)'; drivers[d] = drivers[d] || { aligned: 0, not: 0 }; drivers[d][r.aligned ? 'aligned' : 'not']++; });
+    var preFor = v.filter(function (r) { return r.stakePre === round.verdict; }).length;
+    var postFor = v.filter(function (r) { return r.stakePost === round.verdict; }).length;
+    return {
+      nValid: v.length, nInvalid: round.rows.length - v.length,
+      preAlignedShare: v.length ? preFor / v.length : null, postAlignedShare: v.length ? postFor / v.length : null,
+      switches: sw.length, switchToVerdict: sw.filter(function (r) { return r.aligned; }).length,
+      meanPostAligned: mean(v.filter(function (r) { return r.aligned; }).map(function (r) { return r.invPost; })),
+      meanPostNot: mean(v.filter(function (r) { return !r.aligned; }).map(function (r) { return r.invPost; })),
+      meanDeltaValue: mean(v.map(function (r) { return r.invPost - r.invPre; })),
+      drivers: drivers
+    };
+  }
+
+  function toCSV(rows, cols) {
+    var esc = function (x) { var s = x == null ? '' : String(x); return /[",\n]/.test(s) ? '"' + s.replace(/"/g, '""') + '"' : s; };
+    return [cols.map(function (c) { return esc(c[0]); }).join(',')].concat(rows.map(function (r) { return cols.map(function (c) { return esc(typeof c[1] === 'function' ? c[1](r) : r[c[1]]); }).join(','); })).join('\r\n');
+  }
+
+  root.SIM002 = { DEFAULTS: DEFAULTS, parseCSV: parseCSV, sheetToRecords: sheetToRecords, quickToSheets: quickToSheets, joinAndValidate: joinAndValidate, scoreRound: scoreRound, standings: standings, debrief: debrief, toCSV: toCSV };
+})(typeof window !== 'undefined' ? window : globalThis);
+</script>
+
+<!-- UI -->
+<script>
+(function () {
+  'use strict';
+  var E = window.SIM002, KEY = 'aiprof.sim002.session.v1';
+  var $ = function (id) { return document.getElementById(id); };
+  var S = load() || { cfg: Object.assign({}, E.DEFAULTS, { name: '' }), rounds: [] };
+  var cur = { joined: null, scored: null, mode: 'quick' };
+
+  function load() { try { var s = localStorage.getItem(KEY); return s ? JSON.parse(s) : null; } catch (e) { return null; } }
+  function save() { try { localStorage.setItem(KEY, JSON.stringify(S)); return true; } catch (e) { return false; } }
+  function esc(s) { return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+  function f2(n) { return n == null || isNaN(n) ? '—' : Number(n).toFixed(2); }
+  function pct(n) { return n == null ? '—' : Math.round(n * 100) + '%'; }
+  function msg(el, text, err) { $(el).innerHTML = '<div class="msg' + (err ? ' err' : '') + '">' + text + '</div>'; }
+  function download(name, text, type) {
+    var b = new Blob([text], { type: type || 'text/csv;charset=utf-8' }), a = document.createElement('a');
+    a.href = URL.createObjectURL(b); a.download = name; document.body.appendChild(a); a.click();
+    setTimeout(function () { URL.revokeObjectURL(a.href); a.remove(); }, 500);
+  }
+  function readFile(input) { return new Promise(function (res, rej) { var f = input.files[0]; if (!f) return rej(new Error('Choose both CSV files.')); var r = new FileReader(); r.onload = function () { res(r.result); }; r.onerror = rej; r.readAsText(f); }); }
+
+  // Tabs
+  document.querySelectorAll('nav.tabs button').forEach(function (b) {
+    b.addEventListener('click', function () {
+      document.querySelectorAll('nav.tabs button').forEach(function (x) { x.classList.toggle('sel', x === b); });
+      ['setup', 'round', 'standings', 'debrief', 'data'].forEach(function (t) { $('tab-' + t).classList.toggle('hidden', t !== b.dataset.tab); });
+      if (b.dataset.tab === 'standings') renderStandings();
+      if (b.dataset.tab === 'debrief') renderDebriefSel();
+    });
+  });
+
+  // Setup
+  function fillCfg() {
+    var c = S.cfg; $('cfgName').value = c.name || ''; $('cfgRounds').value = c.totalRounds; $('cfgCap').value = c.startCapital;
+    $('cfgMin').value = c.vMin; $('cfgMax').value = c.vMax; $('cfgPen').value = c.penalty; $('cfgPart').value = Math.round(c.partMin * 100);
+    $('cfgPenAll').value = c.penaltyAllInvalid ? '1' : '0';
+  }
+  $('saveCfg').onclick = function () {
+    var c = { name: $('cfgName').value.trim(), totalRounds: +$('cfgRounds').value, startCapital: +$('cfgCap').value, vMin: +$('cfgMin').value, vMax: +$('cfgMax').value, penalty: +$('cfgPen').value, partMin: +$('cfgPart').value / 100, penaltyAllInvalid: $('cfgPenAll').value === '1' };
+    if (!(c.totalRounds >= 1) || !(c.vMax > c.vMin) || c.penalty < 0) return msg('cfgMsg', 'Check the values: rounds ≥ 1, max > min, penalty ≥ 0.', true);
+    if (S.rounds.length && JSON.stringify(Object.assign({}, S.cfg, { name: c.name })) !== JSON.stringify(c)) return msg('cfgMsg', 'Rounds already scored. Clear the session (tab 5) before changing rules.', true);
+    S.cfg = c; msg('cfgMsg', save() ? 'Saved on this device.' : 'Saved for this page only — browser storage is unavailable, so back up the session before closing.');
+  };
+
+  // Round input mode
+  function setMode(m) { cur.mode = m; $('mQuick').classList.toggle('sel', m === 'quick'); $('mCsv').classList.toggle('sel', m === 'csv'); $('quickBox').classList.toggle('hidden', m !== 'quick'); $('csvBox').classList.toggle('hidden', m !== 'csv'); }
+  $('mQuick').onclick = function () { setMode('quick'); }; $('mCsv').onclick = function () { setMode('csv'); };
+  $('tplBtn').onclick = function () {
+    download('SIM-002_Pre_template.csv', 'Roll No,Team,Stake,Value\r\n');
+    setTimeout(function () { download('SIM-002_Post_template.csv', 'Roll No,Presenting Team,Stake,Value,Select the Primary Strategic Driver for your final investment decision\r\n'); }, 400);
+  };
+
+  function resetRoundOutput() { cur.scored = null; $('roundOut').innerHTML = ''; $('commitRow').classList.add('hidden'); document.querySelectorAll('.vbtn').forEach(function (b) { b.classList.remove('sel'); }); }
+
+  $('validateBtn').onclick = function () {
+    resetRoundOutput(); $('verdictBox').classList.add('hidden');
+    var p = cur.mode === 'quick' ? Promise.resolve(E.quickToSheets($('quick').value)) :
+      Promise.all([readFile($('preFile')), readFile($('postFile'))]).then(function (t) { return { pre: E.sheetToRecords(t[0], 'Pre'), post: E.sheetToRecords(t[1], 'Post') }; });
+    p.then(function (sh) {
+      if (!sh.pre.length) throw new Error('No Pre entries found.');
+      var j = E.joinAndValidate(sh.pre, sh.post, S.cfg); cur.joined = j;
+      var inv = j.rows.filter(function (r) { return !r.valid; });
+      var h = '<div class="kpi"><div>Pre entries<b>' + sh.pre.length + '</b></div><div>Post entries<b>' + sh.post.length + '</b></div><div>In both (scored)<b>' + j.rows.length + '</b></div><div>Valid<b>' + (j.rows.length - inv.length) + '</b></div><div>Invalid<b>' + inv.length + '</b></div></div>';
+      if (j.onlyPre.length) h += '<div class="msg">Pre only, excluded this round: ' + esc(j.onlyPre.join(', ')) + '</div>';
+      if (j.onlyPost.length) h += '<div class="msg">Post only, excluded this round: ' + esc(j.onlyPost.join(', ')) + '</div>';
+      if (inv.length) h += '<h3 style="margin-top:12px">Audit log</h3><div class="tbl"><table><tr><th>Roll</th><th>Reason</th><th>Pre</th><th>Post</th></tr>' + inv.map(function (r) { return '<tr><td>' + esc(r.roll) + '</td><td>' + esc(r.reasons.join(', ')) + '</td><td>' + esc(r.stakePre) + ' ' + esc(r.invPre) + '</td><td>' + esc(r.stakePost) + ' ' + esc(r.invPost) + '</td></tr>'; }).join('') + '</table></div>';
+      $('valOut').innerHTML = h;
+      if (!j.rows.length) throw new Error('No student appears in both Pre and Post.');
+      $('verdictBox').classList.remove('hidden');
+    }).catch(function (e) { msg('valOut', esc(e.message), true); });
+  };
+
+  document.querySelectorAll('.vbtn').forEach(function (b) {
+    b.onclick = function () {
+      if (!cur.joined) return;
+      document.querySelectorAll('.vbtn').forEach(function (x) { x.classList.toggle('sel', x === b); });
+      var sc = E.scoreRound(cur.joined.rows, b.dataset.v, S.cfg); cur.scored = sc;
+      var h = '<div class="kpi"><div>Verdict<b>' + sc.verdict + '</b></div><div>Loss pool<b>₹' + f2(sc.lossPool) + ' Cr</b></div><div>Winners / losers<b>' + sc.winners + ' / ' + sc.losers + '</b></div><div>Zero-sum check<b>' + f2(sc.zeroSumCheck) + '</b></div></div>';
+      if (sc.edge === 'A') h += '<div class="msg">Edge case A: every valid entry took the same stance. No redistribution this round.</div>';
+      h += roundTable(sc.rows);
+      $('roundOut').innerHTML = h; $('commitRow').classList.remove('hidden');
+    };
+  });
+
+  function roundTable(rows) {
+    return '<div class="tbl"><table><tr><th class="num">Rank</th><th>Roll</th><th>Valid</th><th>Pre</th><th>Post</th><th>Aligned</th><th class="num">P&amp;L</th><th class="num">Score</th><th>Driver</th></tr>' +
+      rows.map(function (r) {
+        return '<tr><td class="num">' + r.rank + '</td><td>' + esc(r.roll) + '</td><td>' + (r.valid ? 'Yes' : 'No') + '</td><td>' + esc(r.stakePre) + ' ' + esc(r.invPre) + '</td><td>' + esc(r.stakePost) + ' ' + esc(r.invPost) + '</td><td>' + (r.aligned ? 'Yes' : 'No') + '</td><td class="num ' + (r.pnl > 0 ? 'pos' : r.pnl < 0 ? 'neg' : '') + '">' + f2(r.pnl) + '</td><td class="num">' + f2(r.displayed) + '</td><td>' + esc(r.driver) + '</td></tr>';
+      }).join('') + '</table></div>';
+  }
+
+  var ROUND_COLS = [['Rank', 'rank'], ['Roll No', 'roll'], ['Presenting Team', 'team'], ['Pre Stake', 'stakePre'], ['Pre Value (₹Cr)', 'invPre'], ['Post Stake', 'stakePost'], ['Post Value (₹Cr)', 'invPost'], ['Avg Value (₹Cr)', function (r) { return r.avg == null ? 'N/A' : r.avg.toFixed(1); }], ['Strategic Driver', 'driver'], ['Aligned with Verdict', 'aligned'], ['Round P&L (₹Cr)', function (r) { return r.pnl.toFixed(2); }], ['Raw Score (₹Cr)', function (r) { return r.raw.toFixed(2); }], ['Displayed Score (₹Cr)', function (r) { return r.displayed.toFixed(2); }], ['Is Valid', 'valid'], ['Invalid Reasons', function (r) { return r.reasons.join('; '); }]];
+
+  $('roundCsv').onclick = function () { if (cur.scored) download('leaderboard_' + ($('rId').value.trim() || 'round') + '.csv', E.toCSV(cur.scored.rows, ROUND_COLS)); };
+
+  $('commitBtn').onclick = function () {
+    if (!cur.scored) return;
+    var id = $('rId').value.trim(); if (!id) return msg('roundOut', 'Enter a Round ID first (used to stop the same round being counted twice).', true);
+    var team = $('rTeam').value.trim();
+    cur.scored.rows.forEach(function (r) { if (!r.team) r.team = team; });
+    var existing = S.rounds.findIndex(function (r) { return r.id === id; });
+    var rec = { id: id, team: team, verdict: cur.scored.verdict, at: new Date().toISOString(), rows: cur.scored.rows, lossPool: cur.scored.lossPool, edge: cur.scored.edge };
+    if (existing >= 0) { if (!confirm('Round "' + id + '" already exists. Replace it?')) return; S.rounds[existing] = rec; } else S.rounds.push(rec);
+    var ok = save(); resetRoundOutput(); $('valOut').innerHTML = ''; $('verdictBox').classList.add('hidden'); cur.joined = null; $('quick').value = ''; $('rId').value = ''; $('rTeam').value = '';
+    msg('valOut', 'Round "' + esc(id) + '" added (' + S.rounds.length + ' of ' + S.cfg.totalRounds + ').' + (ok ? '' : ' Browser storage unavailable — download a backup now.'));
+  };
+
+  // Standings
+  function renderStandings() {
+    var st = E.standings(S.rounds, S.cfg);
+    if (!st.rows.length) return void ($('standOut').innerHTML = '<p class="note">No rounds yet.</p>');
+    var h = '<p class="note">Rounds scored: ' + st.roundsDone + ' of ' + S.cfg.totalRounds + '. Minimum participation: ' + st.minReq + ' rounds. ' + (st.final ? 'Final — DQ applied.' : 'Provisional — DQ applied only after the last round.') + '</p>';
+    h += '<div class="tbl"><table><tr><th class="num">Rank</th><th>Roll</th><th class="num">Rounds</th><th class="num">Valid</th><th class="num">Switches</th><th class="num">Cum P&amp;L</th><th class="num">Score</th><th>Status</th></tr>' +
+      st.rows.map(function (r) { return '<tr><td class="num">' + r.rank + '</td><td>' + esc(r.roll) + '</td><td class="num">' + r.rounds + '</td><td class="num">' + r.validRounds + '</td><td class="num">' + r.switches + '</td><td class="num ' + (r.pnl > 0 ? 'pos' : r.pnl < 0 ? 'neg' : '') + '">' + f2(r.pnl) + '</td><td class="num">' + f2(r.displayed) + '</td><td>' + (r.dq ? 'DQ' : r.atRisk ? 'Cannot reach minimum' : '') + '</td></tr>'; }).join('') + '</table></div>';
+    $('standOut').innerHTML = h;
+  }
+  $('standCsv').onclick = function () {
+    var st = E.standings(S.rounds, S.cfg);
+    download('cumulative_leaderboard.csv', E.toCSV(st.rows, [['Cumulative Rank', 'rank'], ['Roll No', 'roll'], ['Rounds Participated', 'rounds'], ['Valid Rounds', 'validRounds'], ['Switches', 'switches'], ['Cumulative P&L (₹Cr)', function (r) { return r.pnl.toFixed(2); }], ['Cumulative Raw Score (₹Cr)', function (r) { return r.raw.toFixed(2); }], ['Cumulative Displayed Score (₹Cr)', function (r) { return r.displayed.toFixed(2); }], ['DQ', 'dq']]));
+  };
+
+  // Debrief
+  function renderDebriefSel() {
+    var sel = $('dbSel'); sel.innerHTML = S.rounds.map(function (r, i) { return '<option value="' + i + '">' + esc(r.id) + ' — verdict ' + r.verdict + '</option>'; }).join('');
+    sel.onchange = renderDebrief; renderDebrief();
+  }
+  function renderDebrief() {
+    var rd = S.rounds[+$('dbSel').value]; if (!rd) return void ($('dbOut').innerHTML = '<p class="note">No rounds yet.</p>');
+    var d = E.debrief(rd);
+    var h = '<div class="kpi"><div>Valid entries<b>' + d.nValid + '</b></div><div>On verdict side, Pre<b>' + pct(d.preAlignedShare) + '</b></div><div>On verdict side, Post<b>' + pct(d.postAlignedShare) + '</b></div><div>Switched stance<b>' + d.switches + '</b></div><div>Switched to verdict side<b>' + d.switchToVerdict + '</b></div><div>Mean Post value, aligned<b>' + f2(d.meanPostAligned) + '</b></div><div>Mean Post value, not aligned<b>' + f2(d.meanPostNot) + '</b></div><div>Mean change in value<b>' + f2(d.meanDeltaValue) + '</b></div></div>';
+    h += '<h3 style="margin-top:12px">Strategic driver × outcome</h3><div class="tbl"><table><tr><th>Driver</th><th class="num">Aligned</th><th class="num">Not aligned</th></tr>' +
+      Object.keys(d.drivers).map(function (k) { return '<tr><td>' + esc(k) + '</td><td class="num">' + d.drivers[k].aligned + '</td><td class="num">' + d.drivers[k].not + '</td></tr>'; }).join('') + '</table></div>';
+    h += '<p class="note">Descriptive only; class sizes are too small for inference. Use the questions in guide §6.</p>';
+    $('dbOut').innerHTML = h;
+  }
+
+  // Data
+  $('exportJson').onclick = function () { download('SIM-002_session_' + (S.cfg.name || 'backup').replace(/\W+/g, '_') + '.json', JSON.stringify(S, null, 1), 'application/json'); };
+  $('importJson').onchange = function (e) {
+    var f = e.target.files[0]; if (!f) return; var r = new FileReader();
+    r.onload = function () { try { var x = JSON.parse(r.result); if (!x.cfg || !Array.isArray(x.rounds)) throw 0; S = x; save(); fillCfg(); msg('dataMsg', 'Backup restored: ' + S.rounds.length + ' rounds.'); } catch (err) { msg('dataMsg', 'Not a SIM-002 backup file.', true); } };
+    r.readAsText(f);
+  };
+  $('undoRound').onclick = function () { if (!S.rounds.length) return; var last = S.rounds[S.rounds.length - 1].id; if (confirm('Remove round "' + last + '"?')) { S.rounds.pop(); save(); msg('dataMsg', 'Removed "' + esc(last) + '".'); } };
+  $('clearAll').onclick = function () { if (confirm('Delete all rounds and rules stored in this browser?')) { S = { cfg: Object.assign({}, E.DEFAULTS, { name: '' }), rounds: [] }; try { localStorage.removeItem(KEY); } catch (e) {} fillCfg(); msg('dataMsg', 'Session cleared.'); } };
+
+  fillCfg();
+})();
+</script>
+</body>
+</html>
