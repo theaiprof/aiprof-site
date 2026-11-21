@@ -11,24 +11,106 @@
 <header class="site">
   <div class="wrap bar">
     <a class="wm" href="../">The AI Prof</a>
-    <nav aria-label="Main"><a href="./" aria-current="page">Simulations</a><a href="../#cases">Cases</a><a href="../#teachers">Teachers</a><a href="../#about">About</a></nav>
+    <button class="menu-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="nav-primary">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+    </button>
+    <nav class="primary" id="nav-primary" aria-label="Primary">
+      <a href="./" aria-current="page">Simulations</a>
+      <a href="../cases/">Cases</a>
+      <a href="../teachers/">Teachers</a>
+      <a href="../about/">About</a>
+    </nav>
   </div>
 </header>
 <main class="wrap">
-  <h1>Simulations</h1>
-  <p>Each simulation has a facilitator guide, a student brief and an assessment rubric, all printable from the simulation page. <span class="tag pilot">Pilot</span> means the simulation is complete and verified, and its first classroom run with this version is under way.</p>
+  <section style="padding-top:40px">
+    <h1 style="font-size:2rem">Simulations</h1>
+    <p style="color:var(--muted);max-width:40em">Each simulation has a facilitator guide, a student brief and an assessment rubric, printable from its own page. <span class="tag">Pilot</span> means the simulation is complete and verified, and its first classroom run is under way.</p>
+    <label for="q" style="font-size:.9rem;color:var(--muted);display:block;margin-top:14px">Search by topic or course</label>
+    <input id="q" type="search" placeholder="e.g. trading, pricing, working capital" style="max-width:420px">
+  </section>
 
-  <a class="card sim" href="sim-002-zero-sum-trading/">
-    <span class="tag pilot">Pilot</span>
-    <h3>Zero-Sum Trading</h3>
-    <p>Fund or Divest a company before and after a team pitch; losers' stakes are paid to winners. Investment theses, position sizing, belief revision, outcome bias.</p>
-    <p class="meta">Classroom · facilitator-run · 15–120 students · UG &amp; PG</p>
-  </a>
+  <section aria-label="Filters" style="padding-top:0">
+    <div class="filters" id="runtime-filters">
+      <span style="font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)">How it runs</span>
+      <button type="button" class="active" data-mode="all">All</button>
+      <button type="button" data-mode="browser">In browser</button>
+      <button type="button" data-mode="prompt">Prompt pack</button>
+    </div>
+    <div class="filter-grid">
+      <div><label for="domain">Domain</label><select id="domain"><option>Any</option><option>Finance</option><option>Strategy</option></select></div>
+      <div><label for="level">Level</label><select id="level"><option>Any</option><option>UG</option><option>PG</option></select></div>
+    </div>
+    <p class="result-count" id="count">2 simulations</p>
+  </section>
 
-  <p class="meta">More simulations are being rebuilt for the browser. Suggest a course topic: <a href="mailto:hey@aiprof.org.in">hey@aiprof.org.in</a></p>
+  <section style="padding-top:0">
+    <div class="cards" id="sim-list">
+      <a class="card" href="sim-002-zero-sum-trading/" data-mode="browser" data-domain="Finance" data-level="UG PG" data-text="zero-sum trading fund divest parimutuel investment thesis">
+        <div style="display:flex;justify-content:space-between;gap:8px"><span class="tag">Pilot</span><span class="meta">UG / PG</span></div>
+        <h3>Zero-Sum Trading</h3>
+        <p>Fund or Divest a company before and after a team pitch; the losing side's stakes are paid to the winning side, in proportion. Teaches investment theses, position sizing, belief revision.</p>
+        <div class="tagset"><span>In browser</span><span>Finance / Strategy</span><span>60–75 min / round</span></div>
+        <div class="status-row"><span>Guide ●</span><span>Brief ●</span><span>Rubric ●</span></div>
+      </a>
+
+      <div class="card dashed" data-mode="prompt" data-domain="Strategy" data-level="PG" data-text="reality engine ai adjudication red team buy short">
+        <div style="display:flex;justify-content:space-between;gap:8px"><span class="meta">In rebuild</span><span class="meta">PG</span></div>
+        <h3>Reality Engine</h3>
+        <p>Teams pitch a market strategy; a red team attacks it; an AI adjudicator returns a binary Fund or Divest verdict.</p>
+        <div class="tagset"><span>Prompt pack</span><span>Finance / Strategy</span></div>
+      </div>
+
+      <div class="card dashed" data-mode="all" data-domain="" data-level="" data-text="suggest a topic contribute">
+        <h3>Have a simulation that works in your class?</h3>
+        <p>Share it. We package it with a guide and rubric and credit you.</p>
+        <a class="link-strong" href="../about/#contribute">Contribute →</a>
+      </div>
+    </div>
+  </section>
 </main>
 <footer class="site">
-  <div class="wrap"><a href="../#licence">Licence</a> · <a href="../#privacy">Privacy</a> · <a href="mailto:hey@aiprof.org.in">Contact</a><br>© 2026 The AI Prof · aiprof.org.in</div>
+  <div class="wrap footer-grid">
+    <p>The AI Prof is an initiative for free, practice-based business education. Content <a href="../about/#licence">CC BY-NC-SA 4.0</a>, code MIT.</p>
+    <nav aria-label="Footer">
+      <a href="../about/#contribute">Contribute</a>
+      <a href="../about/#licence">Licence</a>
+      <a href="../about/#privacy">Privacy</a>
+      <a href="mailto:hey@aiprof.org.in">Contact</a>
+    </nav>
+  </div>
 </footer>
+<script>
+document.querySelector('.menu-toggle').addEventListener('click', function(){
+  var n = document.getElementById('nav-primary'), open = n.classList.toggle('open');
+  this.setAttribute('aria-expanded', open);
+});
+(function(){
+  var q = document.getElementById('q'), domain = document.getElementById('domain'), level = document.getElementById('level');
+  var mode = 'all', cards = Array.prototype.slice.call(document.querySelectorAll('#sim-list > [data-text]'));
+  var count = document.getElementById('count');
+  document.querySelectorAll('#runtime-filters button').forEach(function(b){
+    b.addEventListener('click', function(){
+      document.querySelectorAll('#runtime-filters button').forEach(function(x){x.classList.remove('active');});
+      b.classList.add('active'); mode = b.dataset.mode; apply();
+    });
+  });
+  [q, domain, level].forEach(function(el){ el.addEventListener('input', apply); });
+  function apply(){
+    var text = q.value.trim().toLowerCase(), d = domain.value, l = level.value;
+    var shown = 0;
+    cards.forEach(function(c){
+      var okMode = mode === 'all' || c.dataset.mode === mode || c.dataset.mode === 'all';
+      var okText = !text || c.dataset.text.indexOf(text) !== -1;
+      var okDomain = d === 'Any' || !c.dataset.domain || c.dataset.domain.indexOf(d) !== -1;
+      var okLevel = l === 'Any' || !c.dataset.level || c.dataset.level.indexOf(l) !== -1;
+      var show = okMode && okText && okDomain && okLevel;
+      c.style.display = show ? '' : 'none';
+      if (show) shown++;
+    });
+    count.textContent = shown + (shown === 1 ? ' simulation' : ' simulations');
+  }
+})();
+</script>
 </body>
 </html>

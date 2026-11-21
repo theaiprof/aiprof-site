@@ -11,49 +11,88 @@
 <header class="site">
   <div class="wrap bar">
     <a class="wm" href="./">The AI Prof</a>
-    <nav aria-label="Main"><a href="simulations/">Simulations</a><a href="#cases">Cases</a><a href="#teachers">Teachers</a><a href="#about">About</a></nav>
+    <button class="menu-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="nav-primary">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+    </button>
+    <nav class="primary" id="nav-primary" aria-label="Primary">
+      <a href="simulations/" aria-current="page">Simulations</a>
+      <a href="cases/">Cases</a>
+      <a href="teachers/">Teachers</a>
+      <a href="about/">About</a>
+    </nav>
   </div>
 </header>
-<main class="wrap">
-  <section class="lead">
-    <h1>Practice-grade business education, free for every classroom.</h1>
-    <p>Classroom simulations for commerce and management courses, each with a facilitator guide, student brief and assessment rubric. No login, no fees, no app to install. Built to run on a phone over a slow connection.</p>
-    <a class="cta" href="simulations/">Browse simulations</a>
+<main>
+  <section class="hero wrap">
+    <div class="copy">
+      <p class="kicker">Theory · Tool · Reality</p>
+      <h1>Business simulations for every classroom. Free.</h1>
+      <p class="lede">Ready-to-run simulations and cases for commerce and management teachers — each with a facilitator guide, student brief and rubric. No login. No fees. Works on a phone over a slow connection.</p>
+      <div class="hero-actions">
+        <a class="cta" href="simulations/">Browse simulations</a>
+        <a class="link-strong" href="teachers/">I'm a teacher: where do I start?</a>
+      </div>
+    </div>
   </section>
 
-  <h2>Available now</h2>
-  <a class="card sim" href="simulations/sim-002-zero-sum-trading/">
-    <span class="tag pilot">Pilot</span>
-    <h3>Zero-Sum Trading</h3>
-    <p>Students Fund or Divest a company before and after a team pitch, staking ₹1–15 Cr. The wrong side pays the right side. Teaches investment theses, position sizing and belief revision.</p>
-    <p class="meta">Finance · Strategy · Behavioural Finance · UG &amp; PG · 60–75 min per round</p>
-  </a>
+  <section class="band">
+    <div class="wrap three">
+      <div><p class="eyebrow">1 · Theory</p><p>The concept in one page, mapped to the syllabus topic it teaches.</p></div>
+      <div><p class="eyebrow">2 · Tool</p><p>Students make decisions in rounds and live with the results, in the browser.</p></div>
+      <div><p class="eyebrow">3 · Reality</p><p>A guided debrief connects what happened in class to how real firms behave.</p></div>
+    </div>
+  </section>
 
-  <h2 id="how">How each simulation is built</h2>
-  <div class="three">
-    <div><h3>Theory</h3><p>Learning outcomes mapped to course topics, and the mechanism the simulation teaches.</p></div>
-    <div><h3>Tool</h3><p>A browser simulation that runs on the teacher's device, offline once loaded. No data leaves it.</p></div>
-    <div><h3>Reality</h3><p>A debrief that links each decision back to what real firms and investors did.</p></div>
-  </div>
+  <section class="wrap" id="simulations">
+    <div style="display:flex;flex-wrap:wrap;gap:12px;align-items:baseline;justify-content:space-between">
+      <h2 style="font-size:1.8rem">Simulations</h2>
+      <a class="link-strong" href="simulations/">See the full library →</a>
+    </div>
+    <div class="cards">
+      <a class="card" href="simulations/sim-002-zero-sum-trading/">
+        <span class="tag">Pilot</span>
+        <h3>Zero-Sum Trading</h3>
+        <p class="meta">Finance · Strategy · UG &amp; PG · 60–75 min per round</p>
+        <p>Students Fund or Divest a company before and after a team pitch, staking ₹1–15 Cr. The wrong side pays the right side. Teaches investment theses, position sizing and belief revision.</p>
+      </a>
+      <div class="card dashed">
+        <h3>Reality Engine</h3>
+        <p class="meta">Finance / Strategy · PG</p>
+        <p>Teams pitch a market strategy; a red team attacks it; an AI adjudicator rules Fund or Divest. In rebuild.</p>
+      </div>
+    </div>
+  </section>
 
-  <h2 id="cases">Cases</h2>
-  <p>Case studies with teaching notes are in preparation.</p>
+  <section class="band band-ledger">
+    <div class="wrap" style="display:flex;flex-direction:column;gap:20px">
+      <h2 style="font-size:1.8rem">Free for those who cannot pay</h2>
+      <p style="max-width:40em;font-size:1.1rem">Quality education should reach every curious student. Everything on this site — every simulation, guide, brief and rubric — is free, with no accounts and no fees.</p>
+      <a class="cta outline" style="border-color:#fff;color:#fff" href="about/">About this initiative</a>
+    </div>
+  </section>
 
-  <h2 id="teachers">Teachers</h2>
-  <p>Every simulation page carries a printable facilitator guide: timing, roles, scoring rules and debrief questions. Faculty development workshops on running classroom simulations are planned. To ask about one for your institution, write to <a href="mailto:hey@aiprof.org.in">hey@aiprof.org.in</a>.</p>
-
-  <h2 id="about">About</h2>
-  <p>The AI Prof is an initiative to make experiential business education available to teachers and students who cannot pay for commercial simulations, especially in tier-2, tier-3 and rural institutions. Everything here is free to use and adapt for non-commercial teaching.</p>
-  <p id="partner">Institutions and organisations interested in supporting or partnering: <a href="mailto:hey@aiprof.org.in">hey@aiprof.org.in</a>.</p>
-
-  <h2 id="licence">Licence</h2>
-  <p>Teaching content: <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a>. Code: MIT. Credit "The AI Prof — aiprof.org.in".</p>
-
-  <h2 id="privacy">Privacy</h2>
-  <p>This site has no accounts, forms, cookies or analytics. Simulation data is stored only in your own browser and is never sent to us.</p>
+  <section class="wrap" id="teachers">
+    <h2 style="font-size:1.8rem">Never run a simulation before?</h2>
+    <p style="max-width:40em;color:var(--muted)">Each simulation comes with a facilitator guide, a student brief and a marking rubric, printable straight from the simulation page. Read the guide, open the console, start the class.</p>
+    <a class="link-strong" href="teachers/">Run your first simulation: a 30-minute playbook →</a>
+  </section>
 </main>
 <footer class="site">
-  <div class="wrap"><a href="#licence">Licence</a> · <a href="#privacy">Privacy</a> · <a href="mailto:hey@aiprof.org.in">Contact</a><br>© 2026 The AI Prof · aiprof.org.in</div>
+  <div class="wrap footer-grid">
+    <p>The AI Prof is an initiative for free, practice-based business education. Content <a href="about/#licence">CC BY-NC-SA 4.0</a>, code MIT.</p>
+    <nav aria-label="Footer">
+      <a href="about/#contribute">Contribute</a>
+      <a href="about/#licence">Licence</a>
+      <a href="about/#privacy">Privacy</a>
+      <a href="mailto:hey@aiprof.org.in">Contact</a>
+    </nav>
+  </div>
 </footer>
+<script>
+document.querySelector('.menu-toggle').addEventListener('click', function(){
+  var n = document.getElementById('nav-primary'), open = n.classList.toggle('open');
+  this.setAttribute('aria-expanded', open);
+});
+</script>
 </body>
 </html>

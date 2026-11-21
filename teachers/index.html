@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>For Teachers — The AI Prof</title>
+<meta name="description" content="How to run a free classroom business simulation: facilitator guides, timing, prompt packs, faculty training.">
+<link rel="stylesheet" href="../assets/site.css">
+</head>
+<body>
+<header class="site">
+  <div class="wrap bar">
+    <a class="wm" href="../">The AI Prof</a>
+    <button class="menu-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="nav-primary">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+    </button>
+    <nav class="primary" id="nav-primary" aria-label="Primary">
+      <a href="../simulations/">Simulations</a>
+      <a href="../cases/">Cases</a>
+      <a href="./" aria-current="page">Teachers</a>
+      <a href="../about/">About</a>
+    </nav>
+  </div>
+</header>
+<main class="wrap">
+  <section style="padding-top:40px;display:flex;flex-direction:column;gap:16px">
+    <p class="kicker">For teachers</p>
+    <h1 style="font-size:2.2rem;max-width:18em">Never run a simulation before? Start here.</h1>
+    <p class="lede" style="max-width:38em">Every simulation on this site comes with a facilitator guide, a student brief and a marking rubric — all printable, no PDF needed. This page gets you from "never done this" to running your first session.</p>
+  </section>
+
+  <section>
+    <h2 style="font-size:1.6rem">Run your first simulation: a 30-minute playbook</h2>
+    <div class="steps" style="margin-top:18px">
+      <div><h3 style="font-size:1.1rem">1. Pick a simulation</h3><p style="color:var(--muted)">Browse the <a href="../simulations/">library</a> and match one to a topic you're already teaching.</p></div>
+      <div><h3 style="font-size:1.1rem">2. Read the guide</h3><p style="color:var(--muted)">Each simulation page has a facilitator guide: timing, roles, scoring and debrief questions.</p></div>
+      <div><h3 style="font-size:1.1rem">3. Hand out the brief</h3><p style="color:var(--muted)">Print or share the student brief so the class knows the rules before you start.</p></div>
+      <div><h3 style="font-size:1.1rem">4. Run and debrief</h3><p style="color:var(--muted)">Open the simulation on any device, play the rounds, then use the rubric to grade.</p></div>
+    </div>
+  </section>
+
+  <section class="band">
+    <div class="wrap" style="display:flex;flex-direction:column;gap:12px">
+      <h2 style="font-size:1.6rem">Prompt packs</h2>
+      <p style="max-width:40em;color:var(--muted)">Some simulations are AI-run rather than browser-run. For these, the simulation page gives you a copy-paste prompt pack: paste it into any free AI chat (ChatGPT, Gemini, Claude) and it runs the simulation for you, with a no-AI fallback if your students can't access one.</p>
+    </div>
+  </section>
+
+  <section>
+    <h2 style="font-size:1.6rem">Faculty training</h2>
+    <p style="max-width:40em;color:var(--muted)">Free online workshops on teaching with simulations are in preparation. To request one for your department, write to <a href="mailto:hey@aiprof.org.in">hey@aiprof.org.in</a>.</p>
+  </section>
+</main>
+<footer class="site">
+  <div class="wrap footer-grid">
+    <p>The AI Prof is an initiative for free, practice-based business education. Content <a href="../about/#licence">CC BY-NC-SA 4.0</a>, code MIT.</p>
+    <nav aria-label="Footer">
+      <a href="../about/#contribute">Contribute</a>
+      <a href="../about/#licence">Licence</a>
+      <a href="../about/#privacy">Privacy</a>
+      <a href="mailto:hey@aiprof.org.in">Contact</a>
+    </nav>
+  </div>
+</footer>
+<script>
+document.querySelector('.menu-toggle').addEventListener('click', function(){
+  var n = document.getElementById('nav-primary'), open = n.classList.toggle('open');
+  this.setAttribute('aria-expanded', open);
+});
+</script>
+</body>
+</html>

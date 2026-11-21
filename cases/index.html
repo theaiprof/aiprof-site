@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cases — The AI Prof</title>
+<meta name="description" content="Case studies with teaching notes for business and commerce courses. In preparation.">
+<link rel="stylesheet" href="../assets/site.css">
+</head>
+<body>
+<header class="site">
+  <div class="wrap bar">
+    <a class="wm" href="../">The AI Prof</a>
+    <button class="menu-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="nav-primary">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+    </button>
+    <nav class="primary" id="nav-primary" aria-label="Primary">
+      <a href="../simulations/">Simulations</a>
+      <a href="./" aria-current="page">Cases</a>
+      <a href="../teachers/">Teachers</a>
+      <a href="../about/">About</a>
+    </nav>
+  </div>
+</header>
+<main class="wrap">
+  <section style="padding-top:40px;display:flex;flex-direction:column;gap:16px">
+    <h1 style="font-size:2rem">Cases</h1>
+    <p class="lede" style="max-width:38em">Case studies with teaching notes are in preparation. They'll follow the same free, no-login approach as the simulation library.</p>
+    <p style="color:var(--muted)">Have a case that works well in your classroom? <a href="../about/#contribute">Share it</a>, or suggest a topic: <a href="mailto:hey@aiprof.org.in">hey@aiprof.org.in</a>.</p>
+  </section>
+</main>
+<footer class="site">
+  <div class="wrap footer-grid">
+    <p>The AI Prof is an initiative for free, practice-based business education. Content <a href="../about/#licence">CC BY-NC-SA 4.0</a>, code MIT.</p>
+    <nav aria-label="Footer">
+      <a href="../about/#contribute">Contribute</a>
+      <a href="../about/#licence">Licence</a>
+      <a href="../about/#privacy">Privacy</a>
+      <a href="mailto:hey@aiprof.org.in">Contact</a>
+    </nav>
+  </div>
+</footer>
+<script>
+document.querySelector('.menu-toggle').addEventListener('click', function(){
+  var n = document.getElementById('nav-primary'), open = n.classList.toggle('open');
+  this.setAttribute('aria-expanded', open);
+});
+</script>
+</body>
+</html>

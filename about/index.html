@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>About — The AI Prof</title>
+<meta name="description" content="The AI Prof is an initiative for free, practice-based business and commerce education. Mission, licence and privacy.">
+<link rel="stylesheet" href="../assets/site.css">
+</head>
+<body>
+<header class="site">
+  <div class="wrap bar">
+    <a class="wm" href="../">The AI Prof</a>
+    <button class="menu-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="nav-primary">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+    </button>
+    <nav class="primary" id="nav-primary" aria-label="Primary">
+      <a href="../simulations/">Simulations</a>
+      <a href="../cases/">Cases</a>
+      <a href="../teachers/">Teachers</a>
+      <a href="./" aria-current="page">About</a>
+    </nav>
+  </div>
+</header>
+<main class="wrap">
+  <section style="padding-top:40px;display:flex;flex-direction:column;gap:16px">
+    <h1 style="font-size:2.2rem">About The AI Prof</h1>
+    <p class="lede" style="max-width:38em">The AI Prof is an initiative to make experiential business and commerce education freely available to teachers and students who cannot pay for commercial simulations — especially in tier-2, tier-3 and rural institutions.</p>
+    <p style="max-width:38em;color:var(--muted)">Quality education should be freely accessible to every curious student, anywhere. Commercial business simulations carry per-seat fees most Indian tier-2/3 and rural institutions cannot pay, and most faculty are not trained to design or run simulations on their own. This site gives teachers ready-to-run simulations with facilitation know-how, and gives students hands-on practice they can do self-paced or in class.</p>
+  </section>
+
+  <section id="partner" class="band">
+    <div class="wrap" style="display:flex;flex-direction:column;gap:12px">
+      <h2 style="font-size:1.6rem">Partner or support</h2>
+      <p style="max-width:40em;color:var(--muted)">Institutions and organisations interested in supporting this initiative, hosting a faculty workshop, or partnering in another way: <a href="mailto:hey@aiprof.org.in">hey@aiprof.org.in</a>.</p>
+    </div>
+  </section>
+
+  <section id="contribute">
+    <h2 style="font-size:1.6rem">Contribute a simulation</h2>
+    <p style="max-width:40em;color:var(--muted)">Have a simulation or case that works in your classroom? Share it and we'll package it with a facilitator guide, student brief and rubric, with credit to you. Write to <a href="mailto:hey@aiprof.org.in">hey@aiprof.org.in</a>.</p>
+  </section>
+
+  <section id="licence">
+    <h2 style="font-size:1.6rem">Licence</h2>
+    <p style="max-width:40em;color:var(--muted)">Teaching content on this site is licensed <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a>: free to use and adapt for non-commercial teaching, with credit, sharing adaptations under the same licence. Code is licensed MIT. Credit "The AI Prof — aiprof.org.in".</p>
+  </section>
+
+  <section id="privacy">
+    <h2 style="font-size:1.6rem">Privacy</h2>
+    <p style="max-width:40em;color:var(--muted)">This site has no accounts, forms, cookies or analytics. Where a simulation console stores data (such as scores during a class), it is stored only in your own browser and is never sent to us.</p>
+  </section>
+</main>
+<footer class="site">
+  <div class="wrap footer-grid">
+    <p>The AI Prof is an initiative for free, practice-based business education. Content <a href="#licence">CC BY-NC-SA 4.0</a>, code MIT.</p>
+    <nav aria-label="Footer">
+      <a href="#contribute">Contribute</a>
+      <a href="#licence">Licence</a>
+      <a href="#privacy">Privacy</a>
+      <a href="mailto:hey@aiprof.org.in">Contact</a>
+    </nav>
+  </div>
+</footer>
+<script>
+document.querySelector('.menu-toggle').addEventListener('click', function(){
+  var n = document.getElementById('nav-primary'), open = n.classList.toggle('open');
+  this.setAttribute('aria-expanded', open);
+});
+</script>
+</body>
+</html>
