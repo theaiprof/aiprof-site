@@ -24,6 +24,11 @@
 </header>
 <main>
   <section class="hero wrap">
+    <div class="hero-art" aria-hidden="true" id="hero-art">
+      <svg class="float-shape f1" width="64" height="64" viewBox="0 0 64 64" fill="none"><rect x="8" y="30" width="10" height="26" rx="2" fill="var(--marigold)"/><rect x="24" y="18" width="10" height="38" rx="2" fill="var(--ledger)"/><rect x="40" y="6" width="10" height="50" rx="2" fill="var(--marigold)"/></svg>
+      <svg class="float-shape f2" width="52" height="52" viewBox="0 0 52 52" fill="none"><circle cx="26" cy="26" r="22" stroke="var(--ledger)" stroke-width="3"/><text x="26" y="33" font-size="20" font-weight="700" text-anchor="middle" fill="var(--ledger)" font-family="Georgia,serif">₹</text></svg>
+      <svg class="float-shape f3" width="70" height="44" viewBox="0 0 70 44" fill="none"><polyline points="2,38 18,24 34,30 50,10 68,4" stroke="var(--marigold)" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </div>
     <div class="copy reveal">
       <p class="kicker">Theory · Tool · Reality</p>
       <h1>Business simulations for every classroom. Free.</h1>
@@ -98,6 +103,22 @@ document.querySelector('.menu-toggle').addEventListener('click', function(){
   var n = document.getElementById('nav-primary'), open = n.classList.toggle('open');
   this.setAttribute('aria-expanded', open);
 });
+// Lightweight scroll parallax on the hero shapes. No library; skipped entirely
+// for reduced-motion users and off narrow-viewport layouts handle fine since
+// the art is hidden there anyway (see CSS).
+(function(){
+  var art = document.getElementById('hero-art');
+  if (!art || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var ticking = false;
+  function update(){
+    var y = window.scrollY || 0;
+    art.style.transform = 'translateY(' + Math.min(y * 0.15, 60) + 'px)';
+    ticking = false;
+  }
+  window.addEventListener('scroll', function(){
+    if (!ticking) { window.requestAnimationFrame(update); ticking = true; }
+  }, { passive: true });
+})();
 </script>
 </body>
 </html>

@@ -23,8 +23,20 @@ nav.primary a[aria-current]{color:var(--ledger);font-weight:700;border-bottom:2p
 }
 
 /* hero */
-.hero{padding:64px 0 32px;display:flex;flex-wrap:wrap;gap:40px;align-items:flex-start}
-.hero .copy{flex:999 1 420px;min-width:0;display:flex;flex-direction:column;gap:20px}
+.hero{position:relative;padding:64px 0 32px;display:flex;flex-wrap:wrap;gap:40px;align-items:flex-start;overflow:hidden}
+.hero .copy{position:relative;z-index:1;flex:999 1 420px;min-width:0;display:flex;flex-direction:column;gap:20px}
+.hero-art{position:absolute;inset:0;z-index:0;pointer-events:none;will-change:transform}
+.hero-art .float-shape{position:absolute;opacity:.55}
+.hero-art .f1{top:8%;right:6%}
+.hero-art .f2{top:46%;right:20%}
+.hero-art .f3{top:70%;right:2%}
+@media (max-width:900px){.hero-art{display:none}}
+@media (prefers-reduced-motion: no-preference){
+  .hero-art .f1{animation:floaty 7s ease-in-out infinite}
+  .hero-art .f2{animation:floaty 9s ease-in-out infinite .6s}
+  .hero-art .f3{animation:floaty 8s ease-in-out infinite 1.2s}
+  @keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-14px)}}
+}
 .kicker{margin:0;font-size:.82rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ledger);font-weight:700}
 .hero h1{font-size:clamp(2.4rem,5vw,3.4rem);line-height:1.08;max-width:16em;letter-spacing:-.01em}
 .hero p.lede{margin:0;font-size:1.2rem;color:var(--muted);max-width:34em}
