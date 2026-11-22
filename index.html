@@ -5,12 +5,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>The AI Prof — Free business simulations for every classroom</title>
 <meta name="description" content="Free, practice-based business and commerce education: browser simulations with facilitator guides, student briefs and rubrics. No login, no fees, works on a phone.">
+<link rel="icon" type="image/svg+xml" href="assets/img/logo-mark.svg">
 <link rel="stylesheet" href="assets/site.css">
 </head>
 <body>
 <header class="site">
   <div class="wrap bar">
-    <a class="wm" href="./">The AI Prof</a>
+    <a class="wm" href="./"><img src="assets/img/logo-mark.svg" alt="" width="28" height="28">The AI Prof</a>
     <button class="menu-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="nav-primary">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
     </button>
@@ -29,8 +30,8 @@
     </div>
     <div class="copy reveal">
       <p class="kicker">Theory · Tool · Reality</p>
-      <h1>Business simulations for every classroom. Free.</h1>
-      <p class="lede">Ready-to-run simulations and cases for commerce and management teachers — each with a facilitator guide, student brief and rubric. No login. No fees. Works on a phone over a slow connection.</p>
+      <h1>Free business simulations for every classroom.</h1>
+      <p class="lede">A facilitator guide, student brief and rubric with every simulation. No login, no fees, runs on a phone over a slow connection.</p>
       <div class="hero-actions">
         <a class="cta" href="simulations/">Browse simulations</a>
         <a class="link-strong" href="teachers/">I'm a teacher: where do I start?</a>
@@ -42,11 +43,29 @@
       </div>
     </div>
     <div class="visual reveal">
-      <div class="browser-frame">
+      <div class="slider" id="hero-slider">
         <div class="chrome" aria-hidden="true"><span></span><span></span><span></span></div>
-        <img src="assets/img/home-console.webp" alt="The SIM-002 Zero-Sum Trading facilitator console, running in a browser, showing session rules being set up" width="1400" height="645" loading="eager">
+        <div class="slider-track" id="slider-track">
+          <div class="slide">
+            <img src="assets/img/home-console.webp" alt="The SIM-002 Zero-Sum Trading facilitator console, running in a browser" width="1400" height="645" loading="eager">
+          </div>
+          <div class="slide">
+            <div class="mascot-pane">
+              <img src="assets/img/mascot-teaching.svg" alt="An illustration of The AI Prof: an AI facilitator presenting a chart to a student" width="320" height="160" loading="lazy">
+              <p>Built with teachers, not instead of them — every simulation comes with a guide made for the classroom, not a black box.</p>
+            </div>
+          </div>
+          <div class="slide">
+            <img src="assets/img/standings.webp" alt="A real cumulative standings leaderboard produced by the console after one round" width="1400" height="776" loading="lazy">
+          </div>
+        </div>
+        <div class="slider-dots" id="slider-dots" role="tablist" aria-label="Hero images">
+          <button type="button" role="tab" aria-current="true" aria-label="Slide 1"></button>
+          <button type="button" role="tab" aria-current="false" aria-label="Slide 2"></button>
+          <button type="button" role="tab" aria-current="false" aria-label="Slide 3"></button>
+        </div>
       </div>
-      <p class="img-caption">The real console — no mockup. Set the rules once, run every round from your phone or laptop.</p>
+      <p class="img-caption">Real screens from the real console, no mockups.</p>
     </div>
   </section>
 
@@ -58,45 +77,62 @@
     </div>
   </section>
 
-  <section class="wrap" id="simulations">
-    <div style="display:flex;flex-wrap:wrap;gap:12px;align-items:baseline;justify-content:space-between">
-      <h2 style="font-size:1.8rem">Simulations</h2>
-      <a class="link-strong" href="simulations/">See the full library →</a>
+  <section class="wrap" id="explore">
+    <h2 style="font-size:1.8rem">Explore</h2>
+    <div class="tabbar" id="explore-tabs" role="tablist" aria-label="Explore">
+      <button type="button" role="tab" aria-selected="true" data-panel="panel-sims">Simulations</button>
+      <button type="button" role="tab" aria-selected="false" data-panel="panel-cases">Cases</button>
+      <button type="button" role="tab" aria-selected="false" data-panel="panel-teachers">Teachers</button>
     </div>
-    <div class="cards">
-      <a class="card reveal" href="simulations/sim-002-zero-sum-trading/">
-        <div class="thumb"><img src="assets/img/card-thumb-sim002.webp" alt="Cumulative standings table from a real Zero-Sum Trading session" width="900" height="333" loading="lazy"></div>
-        <span class="tag">Pilot</span>
-        <h3>Zero-Sum Trading</h3>
-        <p class="meta">Finance · Strategy · UG &amp; PG · 60–75 min per round</p>
-        <p>Students Fund or Divest a company before and after a team pitch, staking ₹1–15 Cr. The wrong side pays the right side. Teaches investment theses, position sizing and belief revision.</p>
-      </a>
-      <div class="card dashed reveal">
-        <div class="thumb-placeholder" aria-hidden="true">In rebuild</div>
-        <h3>Reality Engine</h3>
-        <p class="meta">Finance / Strategy · PG</p>
-        <p>Teams pitch a market strategy; a red team attacks it; an AI adjudicator rules Fund or Divest. In rebuild.</p>
-      </div>
-    </div>
-  </section>
 
-  <section class="wrap">
-    <h2 style="font-size:1.8rem">See it running</h2>
-    <p style="max-width:40em;color:var(--muted)">Real screens from a real session — a facilitator scoring a round, and the leaderboard it produces.</p>
-    <div class="shot-row">
-      <div>
-        <div class="browser-frame">
-          <div class="chrome" aria-hidden="true"><span></span><span></span><span></span></div>
-          <img src="assets/img/round-scoring.webp" alt="Scoring a round: eight students' Fund/Divest entries checked, verdict revealed, loss pool and winners calculated" width="1400" height="929" loading="lazy">
+    <div class="tabpanel active" id="panel-sims" role="tabpanel">
+      <div class="cards">
+        <a class="card reveal" href="simulations/sim-002-zero-sum-trading/">
+          <div class="thumb"><img src="assets/img/card-thumb-sim002.webp" alt="Cumulative standings table from a real Zero-Sum Trading session" width="900" height="333" loading="lazy"></div>
+          <span class="tag">Pilot</span>
+          <h3>Zero-Sum Trading</h3>
+          <p class="meta">Finance · Strategy · UG &amp; PG · 60–75 min per round</p>
+          <p>Fund or Divest a company before and after a team pitch, staking ₹1–15 Cr. The wrong side pays the right side.</p>
+        </a>
+        <div class="card dashed reveal">
+          <div class="thumb-placeholder" aria-hidden="true">In rebuild</div>
+          <h3>Reality Engine</h3>
+          <p class="meta">Finance / Strategy · PG</p>
+          <p>Teams pitch a market strategy; a red team attacks it; an AI adjudicator rules Fund or Divest. In rebuild.</p>
         </div>
-        <p class="img-caption">Paste entries, check them, reveal the verdict — the pool and ranks compute instantly.</p>
       </div>
-      <div>
-        <div class="browser-frame">
-          <div class="chrome" aria-hidden="true"><span></span><span></span><span></span></div>
-          <img src="assets/img/standings.webp" alt="Cumulative standings leaderboard ranked by score after one round" width="1400" height="776" loading="lazy">
+      <p style="margin-top:18px"><a class="link-strong" href="simulations/">See the full library →</a></p>
+
+      <div class="shot-row" style="margin-top:8px">
+        <div>
+          <div class="browser-frame">
+            <div class="chrome" aria-hidden="true"><span></span><span></span><span></span></div>
+            <img src="assets/img/round-scoring.webp" alt="Scoring a round: eight students' entries checked, verdict revealed, loss pool and winners calculated" width="1400" height="929" loading="lazy">
+          </div>
+          <p class="img-caption">Paste entries, check them, reveal the verdict — the pool and ranks compute instantly.</p>
         </div>
-        <p class="img-caption">A running leaderboard the class can see, round after round.</p>
+      </div>
+    </div>
+
+    <div class="tabpanel" id="panel-cases" role="tabpanel">
+      <div class="tab-intro">
+        <img class="mascot-small" src="assets/img/mascot-cases.svg" alt="An illustration of The AI Prof holding a case file" width="320" height="160" loading="lazy">
+        <div class="copy">
+          <h3 style="font-size:1.3rem">Case studies with teaching notes</h3>
+          <p style="color:var(--muted);max-width:36em">In preparation, same free, no-login approach as the simulation library. Have a case that works well in your classroom? <a href="about/#contribute">Share it</a>.</p>
+          <p><a class="link-strong" href="cases/">Open Cases →</a></p>
+        </div>
+      </div>
+    </div>
+
+    <div class="tabpanel" id="panel-teachers" role="tabpanel">
+      <div class="tab-intro">
+        <img class="mascot-small" src="assets/img/mascot-teaching.svg" alt="An illustration of The AI Prof presenting to a student" width="320" height="160" loading="lazy">
+        <div class="copy">
+          <h3 style="font-size:1.3rem">Never run a simulation before?</h3>
+          <p style="color:var(--muted);max-width:36em">Every simulation comes with a facilitator guide, a student brief and a marking rubric, printable from its own page. Read the guide, open the console, start the class.</p>
+          <p><a class="link-strong" href="teachers/">Run your first simulation: a 30-minute playbook →</a></p>
+        </div>
       </div>
     </div>
   </section>
@@ -104,15 +140,22 @@
   <section class="band band-ledger">
     <div class="wrap" style="display:flex;flex-direction:column;gap:20px">
       <h2 style="font-size:1.8rem">Free for those who cannot pay</h2>
-      <p style="max-width:40em;font-size:1.1rem">Quality education should reach every curious student. Everything on this site — every simulation, guide, brief and rubric — is free, with no accounts and no fees.</p>
+      <p style="max-width:40em;font-size:1.1rem">Every simulation, guide, brief and rubric on this site is free, with no accounts and no fees.</p>
       <a class="cta outline" style="border-color:#fff;color:#fff" href="about/">About this initiative</a>
     </div>
   </section>
 
-  <section class="wrap" id="teachers">
-    <h2 style="font-size:1.8rem">Never run a simulation before?</h2>
-    <p style="max-width:40em;color:var(--muted)">Each simulation comes with a facilitator guide, a student brief and a marking rubric, printable straight from the simulation page. Read the guide, open the console, start the class.</p>
-    <a class="link-strong" href="teachers/">Run your first simulation: a 30-minute playbook →</a>
+  <section class="wrap" id="request">
+    <h2 style="font-size:1.8rem">Don't see your topic?</h2>
+    <p style="max-width:40em;color:var(--muted)">Tell us the topic or paste a line from your syllabus. This opens your own email app with the note already written — nothing is uploaded, nothing is stored here.</p>
+    <div class="request-box">
+      <label for="syllabus-note" style="font-size:.9rem;color:var(--muted)">Topic or syllabus line</label>
+      <textarea id="syllabus-note" placeholder="e.g. Working capital management for a 2nd-year UG commerce course"></textarea>
+      <div class="row">
+        <button type="button" class="cta" id="syllabus-send">Email this request</button>
+        <span style="font-size:.85rem;color:var(--muted)">Opens hey@aiprof.org.in in your mail app</span>
+      </div>
+    </div>
   </section>
 </main>
 <footer class="site">
@@ -146,6 +189,62 @@ document.querySelector('.menu-toggle').addEventListener('click', function(){
   window.addEventListener('scroll', function(){
     if (!ticking) { window.requestAnimationFrame(update); ticking = true; }
   }, { passive: true });
+})();
+
+// Hero slider: 3 slides, dot nav, autoplay paused on hover/focus and off for
+// reduced-motion users. No library.
+(function(){
+  var track = document.getElementById('slider-track');
+  var dots = document.querySelectorAll('#slider-dots button');
+  var slider = document.getElementById('hero-slider');
+  if (!track || !dots.length) return;
+  var n = dots.length, i = 0, timer = null;
+  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function go(idx){
+    i = (idx + n) % n;
+    track.style.transform = 'translateX(-' + (i * 100) + '%)';
+    dots.forEach(function(d, k){ d.setAttribute('aria-current', k === i ? 'true' : 'false'); });
+  }
+  dots.forEach(function(d, k){ d.addEventListener('click', function(){ go(k); restart(); }); });
+  function tick(){ go(i + 1); }
+  function start(){ if (!reduced) timer = window.setInterval(tick, 5500); }
+  function stop(){ if (timer) { window.clearInterval(timer); timer = null; } }
+  function restart(){ stop(); start(); }
+  slider.addEventListener('mouseenter', stop);
+  slider.addEventListener('mouseleave', start);
+  slider.addEventListener('focusin', stop);
+  slider.addEventListener('focusout', start);
+  start();
+})();
+
+// Explore tabs: Simulations / Cases / Teachers, swapped client-side, no
+// navigation. Images inside inactive panels keep loading="lazy" so they
+// are not fetched until a panel is shown and scrolled to.
+(function(){
+  var tabs = document.querySelectorAll('#explore-tabs button');
+  tabs.forEach(function(btn){
+    btn.addEventListener('click', function(){
+      tabs.forEach(function(b){ b.setAttribute('aria-selected', 'false'); });
+      document.querySelectorAll('.tabpanel').forEach(function(p){ p.classList.remove('active'); });
+      btn.setAttribute('aria-selected', 'true');
+      document.getElementById(btn.dataset.panel).classList.add('active');
+    });
+  });
+})();
+
+// Syllabus request: builds a mailto: link client-side and opens it. No form
+// submission, no server, nothing stored (DEC-013 compliant - this never
+// transmits or saves the text anywhere, it only hands it to the visitor's
+// own mail client).
+(function(){
+  var btn = document.getElementById('syllabus-send');
+  if (!btn) return;
+  btn.addEventListener('click', function(){
+    var note = document.getElementById('syllabus-note').value.trim();
+    var subject = encodeURIComponent('Simulation request');
+    var body = encodeURIComponent((note || '(describe the topic or paste a syllabus line here)') + '\n\n— sent from aiprof.org.in');
+    window.location.href = 'mailto:hey@aiprof.org.in?subject=' + subject + '&body=' + body;
+  });
 })();
 </script>
 </body>

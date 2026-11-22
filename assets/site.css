@@ -10,7 +10,8 @@ img{max-width:100%}
 /* header */
 header.site{border-bottom:1px solid var(--rule);background:var(--paper);position:sticky;top:0;z-index:10}
 .bar{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:14px 0}
-.wm{font-family:"Iowan Old Style","Charter","Georgia",serif;font-weight:700;font-size:1.3rem;color:var(--ink);text-decoration:none;white-space:nowrap}
+.wm{display:inline-flex;align-items:center;gap:9px;font-family:"Iowan Old Style","Charter","Georgia",serif;font-weight:700;font-size:1.3rem;color:var(--ink);text-decoration:none;white-space:nowrap}
+.wm img{width:28px;height:28px;flex:none}
 nav.primary{display:flex;flex-wrap:wrap;gap:4px}
 nav.primary a{display:inline-flex;align-items:center;min-height:44px;padding:0 12px;color:var(--ink);text-decoration:none;font-size:.95rem;border-radius:4px}
 nav.primary a[aria-current]{color:var(--ledger);font-weight:700;border-bottom:2px solid var(--ledger)}
@@ -43,6 +44,36 @@ nav.primary a[aria-current]{color:var(--ledger);font-weight:700;border-bottom:2p
 .img-caption{margin:10px 2px 0;font-size:.82rem;color:var(--muted)}
 .shot-row{display:flex;flex-wrap:wrap;gap:28px;align-items:flex-start;margin-top:24px}
 .shot-row .browser-frame{flex:1 1 320px}
+
+/* hero image slider */
+.slider{border-radius:10px;overflow:hidden;box-shadow:0 28px 54px -28px rgba(23,32,42,.3);background:#fff;border:1px solid var(--rule)}
+.slider .chrome{display:flex;gap:6px;padding:10px 12px;background:#EDE9DF;border-bottom:1px solid var(--rule)}
+.slider .chrome span{width:9px;height:9px;border-radius:50%;background:var(--rule);display:inline-block}
+.slider-track{display:flex;transition:transform .5s ease}
+.slide{flex:0 0 100%;min-width:0}
+.slide img{display:block;width:100%;height:auto}
+.slide .mascot-pane{padding:28px 24px;display:flex;flex-direction:column;align-items:center;gap:10px;text-align:center}
+.slide .mascot-pane img{width:100%;max-width:280px;height:auto}
+.slide .mascot-pane p{margin:0;font-size:.95rem;color:var(--muted);max-width:28em}
+.slider-dots{display:flex;gap:8px;justify-content:center;padding:12px}
+.slider-dots button{width:9px;height:9px;padding:0;border-radius:50%;border:0;background:var(--rule);cursor:pointer}
+.slider-dots button[aria-current="true"]{background:var(--ledger)}
+@media (prefers-reduced-motion: reduce){.slider-track{transition:none}}
+
+/* explore tabs */
+.tabbar{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0}
+.tabbar button{min-height:44px;padding:0 18px;border-radius:999px;border:1px solid var(--rule);background:#fff;color:var(--ink);font-size:.95rem;font-weight:600;cursor:pointer}
+.tabbar button[aria-selected="true"]{background:var(--ledger);border-color:var(--ledger);color:#fff}
+.tabpanel{display:none}
+.tabpanel.active{display:block}
+.tab-intro{display:flex;flex-wrap:wrap;gap:24px;align-items:center}
+.tab-intro .mascot-small{flex:0 0 140px;max-width:140px}
+.tab-intro .copy{flex:1 1 320px}
+
+/* syllabus request (client-side only, no backend, nothing stored) */
+.request-box{background:var(--card);border:1px solid var(--rule);border-radius:10px;padding:24px;display:flex;flex-direction:column;gap:12px}
+.request-box textarea{width:100%;min-height:110px;padding:12px 14px;font:inherit;border:1px solid var(--muted);border-radius:4px;background:#fff;color:var(--ink);resize:vertical}
+.request-box .row{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
 .kicker{margin:0;font-size:.82rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ledger);font-weight:700}
 .hero h1{font-size:clamp(2.4rem,5vw,3.4rem);line-height:1.08;max-width:16em;letter-spacing:-.01em}
 .hero p.lede{margin:0;font-size:1.2rem;color:var(--muted);max-width:34em}
