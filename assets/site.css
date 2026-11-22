@@ -23,20 +23,26 @@ nav.primary a[aria-current]{color:var(--ledger);font-weight:700;border-bottom:2p
 }
 
 /* hero */
-.hero{position:relative;padding:64px 0 32px;display:flex;flex-wrap:wrap;gap:40px;align-items:flex-start;overflow:hidden}
-.hero .copy{position:relative;z-index:1;flex:999 1 420px;min-width:0;display:flex;flex-direction:column;gap:20px}
+.hero{position:relative;padding:56px 0 32px;display:flex;flex-wrap:wrap;gap:40px;align-items:center;overflow:hidden}
+.hero .copy{position:relative;z-index:1;flex:1 1 440px;min-width:0;display:flex;flex-direction:column;gap:20px}
+.hero .visual{position:relative;z-index:1;flex:1 1 440px;min-width:280px}
 .hero-art{position:absolute;inset:0;z-index:0;pointer-events:none;will-change:transform}
 .hero-art .float-shape{position:absolute;opacity:.55}
-.hero-art .f1{top:8%;right:6%}
-.hero-art .f2{top:46%;right:20%}
-.hero-art .f3{top:70%;right:2%}
-@media (max-width:900px){.hero-art{display:none}}
+.hero-art .f1{top:-6%;right:4%}
+@media (max-width:900px){.hero-art .f1{display:none}}
 @media (prefers-reduced-motion: no-preference){
   .hero-art .f1{animation:floaty 7s ease-in-out infinite}
-  .hero-art .f2{animation:floaty 9s ease-in-out infinite .6s}
-  .hero-art .f3{animation:floaty 8s ease-in-out infinite 1.2s}
   @keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-14px)}}
 }
+
+/* browser-chrome mockup frame for real product screenshots */
+.browser-frame{background:#fff;border:1px solid var(--rule);border-radius:10px;overflow:hidden;box-shadow:0 28px 54px -28px rgba(23,32,42,.3)}
+.browser-frame .chrome{display:flex;gap:6px;padding:10px 12px;background:#EDE9DF;border-bottom:1px solid var(--rule)}
+.browser-frame .chrome span{width:9px;height:9px;border-radius:50%;background:#D8D2C4;display:inline-block}
+.browser-frame img{display:block;width:100%;height:auto}
+.img-caption{margin:10px 2px 0;font-size:.82rem;color:var(--muted)}
+.shot-row{display:flex;flex-wrap:wrap;gap:28px;align-items:flex-start;margin-top:24px}
+.shot-row .browser-frame{flex:1 1 320px}
 .kicker{margin:0;font-size:.82rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ledger);font-weight:700}
 .hero h1{font-size:clamp(2.4rem,5vw,3.4rem);line-height:1.08;max-width:16em;letter-spacing:-.01em}
 .hero p.lede{margin:0;font-size:1.2rem;color:var(--muted);max-width:34em}
@@ -74,6 +80,9 @@ section{padding:40px 0}
 .card:hover{border-color:var(--ledger);box-shadow:0 8px 20px -12px rgba(23,32,42,.25);transform:translateY(-2px)}
 .card h3{font-size:1.4rem;color:var(--ledger)}
 .card .meta{font-size:.85rem;color:var(--muted)}
+.card .thumb{margin:-24px -24px 2px;border-radius:8px 8px 0 0;overflow:hidden;border-bottom:1px solid var(--rule)}
+.card .thumb img{display:block;width:100%;height:auto}
+.card .thumb-placeholder{margin:-24px -24px 2px;border-radius:8px 8px 0 0;height:110px;border-bottom:1px dashed var(--muted);background:repeating-linear-gradient(135deg,var(--paper),var(--paper) 10px,#EDE9DF 10px,#EDE9DF 20px);display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:.78rem;letter-spacing:.04em;text-transform:uppercase}
 .tagset{display:flex;flex-wrap:wrap;gap:6px;font-size:.78rem}
 .tagset span{padding:3px 8px;background:var(--paper);border-radius:4px}
 .tag{display:inline-block;font-size:.72rem;font-weight:700;letter-spacing:.02em;border:1px solid var(--ledger);color:var(--ledger);border-radius:4px;padding:1px 8px;align-self:flex-start}

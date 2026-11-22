@@ -15,7 +15,7 @@
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
     </button>
     <nav class="primary" id="nav-primary" aria-label="Primary">
-      <a href="simulations/" aria-current="page">Simulations</a>
+      <a href="simulations/">Simulations</a>
       <a href="cases/">Cases</a>
       <a href="teachers/">Teachers</a>
       <a href="about/">About</a>
@@ -26,8 +26,6 @@
   <section class="hero wrap">
     <div class="hero-art" aria-hidden="true" id="hero-art">
       <svg class="float-shape f1" width="64" height="64" viewBox="0 0 64 64" fill="none"><rect x="8" y="30" width="10" height="26" rx="2" fill="var(--marigold)"/><rect x="24" y="18" width="10" height="38" rx="2" fill="var(--ledger)"/><rect x="40" y="6" width="10" height="50" rx="2" fill="var(--marigold)"/></svg>
-      <svg class="float-shape f2" width="52" height="52" viewBox="0 0 52 52" fill="none"><circle cx="26" cy="26" r="22" stroke="var(--ledger)" stroke-width="3"/><text x="26" y="33" font-size="20" font-weight="700" text-anchor="middle" fill="var(--ledger)" font-family="Georgia,serif">₹</text></svg>
-      <svg class="float-shape f3" width="70" height="44" viewBox="0 0 70 44" fill="none"><polyline points="2,38 18,24 34,30 50,10 68,4" stroke="var(--marigold)" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
     </div>
     <div class="copy reveal">
       <p class="kicker">Theory · Tool · Reality</p>
@@ -42,6 +40,13 @@
         <div class="stat"><b>0</b><span>Logins or accounts</span></div>
         <div class="stat"><b>3G</b><span>Runs on a slow connection</span></div>
       </div>
+    </div>
+    <div class="visual reveal">
+      <div class="browser-frame">
+        <div class="chrome" aria-hidden="true"><span></span><span></span><span></span></div>
+        <img src="assets/img/home-console.webp" alt="The SIM-002 Zero-Sum Trading facilitator console, running in a browser, showing session rules being set up" width="1400" height="645" loading="eager">
+      </div>
+      <p class="img-caption">The real console — no mockup. Set the rules once, run every round from your phone or laptop.</p>
     </div>
   </section>
 
@@ -60,15 +65,38 @@
     </div>
     <div class="cards">
       <a class="card reveal" href="simulations/sim-002-zero-sum-trading/">
+        <div class="thumb"><img src="assets/img/card-thumb-sim002.webp" alt="Cumulative standings table from a real Zero-Sum Trading session" width="900" height="333" loading="lazy"></div>
         <span class="tag">Pilot</span>
         <h3>Zero-Sum Trading</h3>
         <p class="meta">Finance · Strategy · UG &amp; PG · 60–75 min per round</p>
         <p>Students Fund or Divest a company before and after a team pitch, staking ₹1–15 Cr. The wrong side pays the right side. Teaches investment theses, position sizing and belief revision.</p>
       </a>
       <div class="card dashed reveal">
+        <div class="thumb-placeholder" aria-hidden="true">In rebuild</div>
         <h3>Reality Engine</h3>
         <p class="meta">Finance / Strategy · PG</p>
         <p>Teams pitch a market strategy; a red team attacks it; an AI adjudicator rules Fund or Divest. In rebuild.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="wrap">
+    <h2 style="font-size:1.8rem">See it running</h2>
+    <p style="max-width:40em;color:var(--muted)">Real screens from a real session — a facilitator scoring a round, and the leaderboard it produces.</p>
+    <div class="shot-row">
+      <div>
+        <div class="browser-frame">
+          <div class="chrome" aria-hidden="true"><span></span><span></span><span></span></div>
+          <img src="assets/img/round-scoring.webp" alt="Scoring a round: eight students' Fund/Divest entries checked, verdict revealed, loss pool and winners calculated" width="1400" height="929" loading="lazy">
+        </div>
+        <p class="img-caption">Paste entries, check them, reveal the verdict — the pool and ranks compute instantly.</p>
+      </div>
+      <div>
+        <div class="browser-frame">
+          <div class="chrome" aria-hidden="true"><span></span><span></span><span></span></div>
+          <img src="assets/img/standings.webp" alt="Cumulative standings leaderboard ranked by score after one round" width="1400" height="776" loading="lazy">
+        </div>
+        <p class="img-caption">A running leaderboard the class can see, round after round.</p>
       </div>
     </div>
   </section>
