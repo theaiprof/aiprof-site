@@ -91,7 +91,7 @@
           <div class="thumb"><img src="assets/img/card-thumb-sim002.webp" alt="Cumulative standings table from a real Zero-Sum Trading session" width="900" height="333" loading="lazy"></div>
           <span class="tag">Pilot</span>
           <h3>Zero-Sum Trading</h3>
-          <p class="meta">Finance · Strategy · UG &amp; PG · 60–75 min per round</p>
+          <p class="meta">Finance · Strategy · UG &amp; PG · 60–75 min per round · solo practice available</p>
           <p>Fund or Divest a company before and after a team pitch, staking ₹1–15 Cr. The wrong side pays the right side.</p>
         </a>
         <div class="card dashed reveal">
@@ -153,8 +153,14 @@
       <textarea id="syllabus-note" placeholder="e.g. Working capital management for a 2nd-year UG commerce course"></textarea>
       <div class="row">
         <button type="button" class="cta" id="syllabus-send">Email this request</button>
-        <span style="font-size:.85rem;color:var(--muted)">Opens hey@aiprof.org.in in your mail app</span>
+        <span style="font-size:.85rem;color:var(--muted)">Opens <span class="copy-row"><code id="email-request">hey@aiprof.org.in</code><button type="button" class="copy-btn" data-copy-target="email-request">Copy</button></span> in your mail app — no mail app set up? Copy the address instead.</span>
       </div>
+    </div>
+  </section>
+
+  <section class="wrap" id="for-students" style="padding-top:0">
+    <div class="band" style="border-radius:8px;padding:20px 24px">
+      <p style="margin:0">Are you a student, not a teacher? <a href="simulations/">Browse what's free to play</a>, or share this site with your teacher: <a href="https://wa.me/?text=Check%20out%20The%20AI%20Prof%20%E2%80%94%20free%20business%20simulations%20for%20class%2C%20no%20login%3A%20https%3A%2F%2Faiprof.org.in">send on WhatsApp</a>.</p>
     </div>
   </section>
 </main>
@@ -217,6 +223,29 @@ document.querySelector('.menu-toggle').addEventListener('click', function(){
   start();
 })();
 
+// Hero 3D tilt: the console-screenshot slider tilts toward the pointer on
+// desktop. CSS 3D transforms only (perspective + rotateX/Y), no library,
+// no extra bytes beyond this script. Pointer-fine devices only (mouse/
+// trackpad) — touch devices keep the slider flat, since a continuous
+// touch-tracked tilt fights with scrolling. Off for reduced-motion.
+(function(){
+  var hero = document.querySelector('.hero');
+  var slider = document.getElementById('hero-slider');
+  if (!hero || !slider) return;
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  if (!window.matchMedia('(pointer: fine)').matches) return;
+  hero.addEventListener('mousemove', function(e){
+    var r = hero.getBoundingClientRect();
+    var px = (e.clientX - r.left) / r.width - 0.5;
+    var py = (e.clientY - r.top) / r.height - 0.5;
+    var rotY = px * 10, rotX = py * -8;
+    slider.style.transform = 'rotateX(' + rotX + 'deg) rotateY(' + rotY + 'deg)';
+  });
+  hero.addEventListener('mouseleave', function(){
+    slider.style.transform = '';
+  });
+})();
+
 // Explore tabs: Simulations / Cases / Teachers, swapped client-side, no
 // navigation. Images inside inactive panels keep loading="lazy" so they
 // are not fetched until a panel is shown and scrolled to.
@@ -246,6 +275,18 @@ document.querySelector('.menu-toggle').addEventListener('click', function(){
     window.location.href = 'mailto:hey@aiprof.org.in?subject=' + subject + '&body=' + body;
   });
 })();
+
+// Copy-to-clipboard for the email address, since mailto: links do nothing on a
+// device with no mail app configured (common on shared lab computers).
+document.querySelectorAll('.copy-btn[data-copy-target]').forEach(function(btn){
+  btn.addEventListener('click', function(){
+    var text = document.getElementById(btn.dataset.copyTarget).textContent;
+    (navigator.clipboard ? navigator.clipboard.writeText(text) : Promise.reject())
+      .then(function(){ btn.textContent = 'Copied'; btn.dataset.copied = 'true'; })
+      .catch(function(){ btn.textContent = text; })
+      .finally(function(){ setTimeout(function(){ btn.textContent = 'Copy'; btn.removeAttribute('data-copied'); }, 2000); });
+  });
+});
 </script>
 </body>
 </html>
