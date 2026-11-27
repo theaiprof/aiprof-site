@@ -26,8 +26,8 @@
 <main class="wrap">
   <section style="padding-top:40px;display:flex;flex-direction:column;gap:16px">
     <h1 style="font-size:2rem">Cases</h1>
-    <p class="lede" style="max-width:38em">Case studies with teaching notes are in preparation. They'll follow the same free, no-login approach as the simulation library.</p>
-    <p style="color:var(--muted)">Have a case that works well in your classroom? <a href="../about/#contribute">Share it</a>, or suggest a topic: <a href="mailto:hey@aiprof.org.in">hey@aiprof.org.in</a>.</p>
+    <p class="lede" style="max-width:38em">The first case studies with teaching notes are being written now. No date to promise yet — but the <a href="../simulations/">simulation library</a> is live today if you want to start with that.</p>
+    <p style="color:var(--muted)">Have a case that works well in your classroom? <a href="../about/#contribute">Share it</a>, or ask to be notified when the first one is ready: <span class="copy-row"><code id="email-cases">hey@aiprof.org.in</code><button type="button" class="copy-btn" data-copy-target="email-cases">Copy</button></span> or <a href="mailto:hey@aiprof.org.in?subject=Notify%20me%3A%20Cases">open your mail app</a>.</p>
   </section>
 </main>
 <footer class="site">
@@ -45,6 +45,15 @@
 document.querySelector('.menu-toggle').addEventListener('click', function(){
   var n = document.getElementById('nav-primary'), open = n.classList.toggle('open');
   this.setAttribute('aria-expanded', open);
+});
+document.querySelectorAll('.copy-btn[data-copy-target]').forEach(function(btn){
+  btn.addEventListener('click', function(){
+    var text = document.getElementById(btn.dataset.copyTarget).textContent;
+    (navigator.clipboard ? navigator.clipboard.writeText(text) : Promise.reject())
+      .then(function(){ btn.textContent = 'Copied'; btn.dataset.copied = 'true'; })
+      .catch(function(){ btn.textContent = text; })
+      .finally(function(){ setTimeout(function(){ btn.textContent = 'Copy'; btn.removeAttribute('data-copied'); }, 2000); });
+  });
 });
 </script>
 </body>

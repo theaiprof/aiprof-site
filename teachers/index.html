@@ -58,7 +58,7 @@
 
   <section>
     <h2 style="font-size:1.6rem">Faculty training</h2>
-    <p style="max-width:40em;color:var(--muted)">Free online workshops on teaching with simulations are in preparation. To request one for your department, write to <a href="mailto:hey@aiprof.org.in">hey@aiprof.org.in</a>.</p>
+    <p style="max-width:40em;color:var(--muted)">Free online workshops on teaching with simulations are in preparation, with no fixed date yet. To request one for your department, write to <span class="copy-row"><code id="email-training">hey@aiprof.org.in</code><button type="button" class="copy-btn" data-copy-target="email-training">Copy</button></span> or <a href="mailto:hey@aiprof.org.in?subject=Faculty%20training%20request">open your mail app</a>.</p>
   </section>
 </main>
 <footer class="site">
@@ -76,6 +76,15 @@
 document.querySelector('.menu-toggle').addEventListener('click', function(){
   var n = document.getElementById('nav-primary'), open = n.classList.toggle('open');
   this.setAttribute('aria-expanded', open);
+});
+document.querySelectorAll('.copy-btn[data-copy-target]').forEach(function(btn){
+  btn.addEventListener('click', function(){
+    var text = document.getElementById(btn.dataset.copyTarget).textContent;
+    (navigator.clipboard ? navigator.clipboard.writeText(text) : Promise.reject())
+      .then(function(){ btn.textContent = 'Copied'; btn.dataset.copied = 'true'; })
+      .catch(function(){ btn.textContent = text; })
+      .finally(function(){ setTimeout(function(){ btn.textContent = 'Copy'; btn.removeAttribute('data-copied'); }, 2000); });
+  });
 });
 </script>
 </body>

@@ -3,71 +3,174 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>For Teachers — The AI Prof</title>
-<meta name="description" content="How to run a free classroom business simulation: facilitator guides, timing, prompt packs, faculty training.">
-<link rel="icon" type="image/svg+xml" href="../assets/img/logo-mark.svg">
-<link rel="stylesheet" href="../assets/site.css">
+<title>The AI Prof — Free business simulations for every classroom</title>
+<meta name="description" content="Free, practice-based business and commerce education: browser simulations with facilitator guides, student briefs and rubrics. No login, no fees, works on a phone.">
+<link rel="icon" type="image/svg+xml" href="assets/img/logo-mark.svg">
+<link rel="stylesheet" href="assets/site.css">
 </head>
 <body>
 <header class="site">
   <div class="wrap bar">
-    <a class="wm" href="../"><img src="../assets/img/logo-mark.svg" alt="" width="28" height="28">The AI Prof</a>
+    <a class="wm" href="./"><img src="assets/img/logo-mark.svg" alt="" width="28" height="28">The AI Prof</a>
     <button class="menu-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="nav-primary">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
     </button>
     <nav class="primary" id="nav-primary" aria-label="Primary">
-      <a href="../simulations/">Simulations</a>
-      <a href="../cases/">Cases</a>
-      <a href="./" aria-current="page">Teachers</a>
-      <a href="../about/">About</a>
+      <a href="simulations/">Simulations</a>
+      <a href="cases/">Cases</a>
+      <a href="teachers/">Teachers</a>
+      <a href="about/">About</a>
     </nav>
   </div>
 </header>
-<main class="wrap">
-  <section style="padding-top:40px;display:flex;flex-direction:column;gap:16px">
-    <p class="kicker">For teachers</p>
-    <h1 style="font-size:2.2rem;max-width:18em">Never run a simulation before? Start here.</h1>
-    <p class="lede" style="max-width:38em">Every simulation on this site comes with a facilitator guide, a student brief and a marking rubric — all printable, no PDF needed. This page gets you from "never done this" to running your first session.</p>
-  </section>
-
-  <section>
-    <div class="shot-row" style="align-items:center">
-      <div class="steps" style="flex:1 1 420px">
-        <h2 style="font-size:1.6rem;flex-basis:100%">Run your first simulation: a 30-minute playbook</h2>
-        <div><h3 style="font-size:1.1rem">1. Pick a simulation</h3><p style="color:var(--muted)">Browse the <a href="../simulations/">library</a> and match one to a topic you're already teaching.</p></div>
-        <div><h3 style="font-size:1.1rem">2. Read the guide</h3><p style="color:var(--muted)">Each simulation page has a facilitator guide: timing, roles, scoring and debrief questions.</p></div>
-        <div><h3 style="font-size:1.1rem">3. Hand out the brief</h3><p style="color:var(--muted)">Print or share the student brief so the class knows the rules before you start.</p></div>
-        <div><h3 style="font-size:1.1rem">4. Run and debrief</h3><p style="color:var(--muted)">Open the simulation on any device, play the rounds, then use the rubric to grade.</p></div>
+<main>
+  <section class="hero wrap">
+    <div class="hero-art" aria-hidden="true" id="hero-art">
+      <svg class="float-shape f1" width="64" height="64" viewBox="0 0 64 64" fill="none"><rect x="8" y="30" width="10" height="26" rx="2" fill="var(--marigold)"/><rect x="24" y="18" width="10" height="38" rx="2" fill="var(--ledger)"/><rect x="40" y="6" width="10" height="50" rx="2" fill="var(--marigold)"/></svg>
+    </div>
+    <div class="copy reveal">
+      <p class="kicker">Theory · Tool · Reality</p>
+      <h1>Free business simulations for every classroom.</h1>
+      <p class="lede">A facilitator guide, student brief and rubric with every simulation. No login, no fees, runs on a phone over a slow connection.</p>
+      <div class="hero-actions">
+        <a class="cta" href="simulations/">Browse simulations</a>
+        <a class="link-strong" href="teachers/">I'm a teacher: where do I start?</a>
       </div>
-      <div style="flex:0 1 300px">
-        <div class="browser-frame">
-          <div class="chrome" aria-hidden="true"><span></span><span></span><span></span></div>
-          <img src="../assets/img/mobile-console.webp" alt="The facilitator console open on a phone screen" width="640" height="738" loading="lazy">
+      <div class="statline">
+        <div class="stat"><b>₹0</b><span>Cost, always</span></div>
+        <div class="stat"><b>0</b><span>Logins or accounts</span></div>
+        <div class="stat"><b>3G</b><span>Runs on a slow connection</span></div>
+      </div>
+    </div>
+    <div class="visual reveal">
+      <div class="slider" id="hero-slider">
+        <div class="chrome" aria-hidden="true"><span></span><span></span><span></span></div>
+        <div class="slider-track" id="slider-track">
+          <div class="slide">
+            <img src="assets/img/home-console.webp" alt="The SIM-002 Zero-Sum Trading facilitator console, running in a browser" width="1400" height="645" loading="eager">
+          </div>
+          <div class="slide">
+            <div class="mascot-pane">
+              <img src="assets/img/mascot-teaching.svg" alt="An illustration of The AI Prof: an AI facilitator presenting a chart to a student" width="320" height="160" loading="lazy">
+              <p>Built with teachers, not instead of them — every simulation comes with a guide made for the classroom, not a black box.</p>
+            </div>
+          </div>
+          <div class="slide">
+            <img src="assets/img/standings.webp" alt="A real cumulative standings leaderboard produced by the console after one round" width="1400" height="776" loading="lazy">
+          </div>
         </div>
-        <p class="img-caption">Same console, no app to install — open it on whatever device is in the room.</p>
+        <div class="slider-dots" id="slider-dots" role="tablist" aria-label="Hero images">
+          <button type="button" role="tab" aria-current="true" aria-label="Slide 1"></button>
+          <button type="button" role="tab" aria-current="false" aria-label="Slide 2"></button>
+          <button type="button" role="tab" aria-current="false" aria-label="Slide 3"></button>
+        </div>
       </div>
+      <p class="img-caption">Real screens from the real console, no mockups.</p>
     </div>
   </section>
 
   <section class="band">
-    <div class="wrap" style="display:flex;flex-direction:column;gap:12px">
-      <h2 style="font-size:1.6rem">Prompt packs</h2>
-      <p style="max-width:40em;color:var(--muted)">Some simulations are AI-run rather than browser-run. For these, the simulation page gives you a copy-paste prompt pack: paste it into any free AI chat (ChatGPT, Gemini, Claude) and it runs the simulation for you, with a no-AI fallback if your students can't access one.</p>
+    <div class="wrap three">
+      <div class="reveal"><p class="eyebrow">1 · Theory</p><p>The concept in one page, mapped to the syllabus topic it teaches.</p></div>
+      <div class="reveal"><p class="eyebrow">2 · Tool</p><p>Students make decisions in rounds and live with the results, in the browser.</p></div>
+      <div class="reveal"><p class="eyebrow">3 · Reality</p><p>A guided debrief connects what happened in class to how real firms behave.</p></div>
     </div>
   </section>
 
-  <section>
-    <h2 style="font-size:1.6rem">Faculty training</h2>
-    <p style="max-width:40em;color:var(--muted)">Free online workshops on teaching with simulations are in preparation, with no fixed date yet. To request one for your department, write to <span class="copy-row"><code id="email-training">hey@aiprof.org.in</code><button type="button" class="copy-btn" data-copy-target="email-training">Copy</button></span> or <a href="mailto:hey@aiprof.org.in?subject=Faculty%20training%20request">open your mail app</a>.</p>
+  <section class="wrap" id="explore">
+    <h2 style="font-size:1.8rem">Explore</h2>
+    <div class="tabbar" id="explore-tabs" role="tablist" aria-label="Explore">
+      <button type="button" role="tab" aria-selected="true" data-panel="panel-sims">Simulations</button>
+      <button type="button" role="tab" aria-selected="false" data-panel="panel-cases">Cases</button>
+      <button type="button" role="tab" aria-selected="false" data-panel="panel-teachers">Teachers</button>
+    </div>
+
+    <div class="tabpanel active" id="panel-sims" role="tabpanel">
+      <div class="cards">
+        <a class="card reveal" href="simulations/sim-002-zero-sum-trading/">
+          <div class="thumb"><img src="assets/img/card-thumb-sim002.webp" alt="Cumulative standings table from a real Zero-Sum Trading session" width="900" height="333" loading="lazy"></div>
+          <span class="tag">Pilot</span>
+          <h3>Zero-Sum Trading</h3>
+          <p class="meta">Finance · Strategy · UG &amp; PG · 60–75 min per round · solo practice available</p>
+          <p>Fund or Divest a company before and after a team pitch, staking ₹1–15 Cr. The wrong side pays the right side.</p>
+        </a>
+        <div class="card dashed reveal">
+          <div class="thumb-placeholder" aria-hidden="true">In rebuild</div>
+          <h3>Reality Engine</h3>
+          <p class="meta">Finance / Strategy · PG</p>
+          <p>Teams pitch a market strategy; a red team attacks it; an AI adjudicator rules Fund or Divest. In rebuild.</p>
+        </div>
+      </div>
+      <p style="margin-top:18px"><a class="link-strong" href="simulations/">See the full library →</a></p>
+
+      <div class="shot-row" style="margin-top:8px">
+        <div>
+          <div class="browser-frame">
+            <div class="chrome" aria-hidden="true"><span></span><span></span><span></span></div>
+            <img src="assets/img/round-scoring.webp" alt="Scoring a round: eight students' entries checked, verdict revealed, loss pool and winners calculated" width="1400" height="929" loading="lazy">
+          </div>
+          <p class="img-caption">Paste entries, check them, reveal the verdict — the pool and ranks compute instantly.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="tabpanel" id="panel-cases" role="tabpanel">
+      <div class="tab-intro">
+        <img class="mascot-small" src="assets/img/mascot-cases.svg" alt="An illustration of The AI Prof holding a case file" width="320" height="160" loading="lazy">
+        <div class="copy">
+          <h3 style="font-size:1.3rem">Case studies with teaching notes</h3>
+          <p style="color:var(--muted);max-width:36em">In preparation, same free, no-login approach as the simulation library. Have a case that works well in your classroom? <a href="about/#contribute">Share it</a>.</p>
+          <p><a class="link-strong" href="cases/">Open Cases →</a></p>
+        </div>
+      </div>
+    </div>
+
+    <div class="tabpanel" id="panel-teachers" role="tabpanel">
+      <div class="tab-intro">
+        <img class="mascot-small" src="assets/img/mascot-teaching.svg" alt="An illustration of The AI Prof presenting to a student" width="320" height="160" loading="lazy">
+        <div class="copy">
+          <h3 style="font-size:1.3rem">Never run a simulation before?</h3>
+          <p style="color:var(--muted);max-width:36em">Every simulation comes with a facilitator guide, a student brief and a marking rubric, printable from its own page. Read the guide, open the console, start the class.</p>
+          <p><a class="link-strong" href="teachers/">Run your first simulation: a 30-minute playbook →</a></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="band band-ledger">
+    <div class="wrap" style="display:flex;flex-direction:column;gap:20px">
+      <h2 style="font-size:1.8rem">Free for those who cannot pay</h2>
+      <p style="max-width:40em;font-size:1.1rem">Every simulation, guide, brief and rubric on this site is free, with no accounts and no fees.</p>
+      <a class="cta outline" style="border-color:#fff;color:#fff" href="about/">About this initiative</a>
+    </div>
+  </section>
+
+  <section class="wrap" id="request">
+    <h2 style="font-size:1.8rem">Don't see your topic?</h2>
+    <p style="max-width:40em;color:var(--muted)">Tell us the topic or paste a line from your syllabus. This opens your own email app with the note already written — nothing is uploaded, nothing is stored here.</p>
+    <div class="request-box">
+      <label for="syllabus-note" style="font-size:.9rem;color:var(--muted)">Topic or syllabus line</label>
+      <textarea id="syllabus-note" placeholder="e.g. Working capital management for a 2nd-year UG commerce course"></textarea>
+      <div class="row">
+        <button type="button" class="cta" id="syllabus-send">Email this request</button>
+        <span style="font-size:.85rem;color:var(--muted)">Opens <span class="copy-row"><code id="email-request">hey@aiprof.org.in</code><button type="button" class="copy-btn" data-copy-target="email-request">Copy</button></span> in your mail app — no mail app set up? Copy the address instead.</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="wrap" id="for-students" style="padding-top:0">
+    <div class="band" style="border-radius:8px;padding:20px 24px">
+      <p style="margin:0">Are you a student, not a teacher? <a href="simulations/">Browse what's free to play</a>, or share this site with your teacher: <a href="https://wa.me/?text=Check%20out%20The%20AI%20Prof%20%E2%80%94%20free%20business%20simulations%20for%20class%2C%20no%20login%3A%20https%3A%2F%2Faiprof.org.in">send on WhatsApp</a>.</p>
+    </div>
   </section>
 </main>
 <footer class="site">
   <div class="wrap footer-grid">
-    <p>The AI Prof is an initiative for free, practice-based business education. Content <a href="../about/#licence">CC BY-NC-SA 4.0</a>, code MIT.</p>
+    <p>The AI Prof is an initiative for free, practice-based business education. Content <a href="about/#licence">CC BY-NC-SA 4.0</a>, code MIT.</p>
     <nav aria-label="Footer">
-      <a href="../about/#contribute">Contribute</a>
-      <a href="../about/#licence">Licence</a>
-      <a href="../about/#privacy">Privacy</a>
+      <a href="about/#contribute">Contribute</a>
+      <a href="about/#licence">Licence</a>
+      <a href="about/#privacy">Privacy</a>
       <a href="mailto:hey@aiprof.org.in">Contact</a>
     </nav>
   </div>
@@ -77,6 +180,104 @@ document.querySelector('.menu-toggle').addEventListener('click', function(){
   var n = document.getElementById('nav-primary'), open = n.classList.toggle('open');
   this.setAttribute('aria-expanded', open);
 });
+// Lightweight scroll parallax on the hero shapes. No library; skipped entirely
+// for reduced-motion users and off narrow-viewport layouts handle fine since
+// the art is hidden there anyway (see CSS).
+(function(){
+  var art = document.getElementById('hero-art');
+  if (!art || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var ticking = false;
+  function update(){
+    var y = window.scrollY || 0;
+    art.style.transform = 'translateY(' + Math.min(y * 0.15, 60) + 'px)';
+    ticking = false;
+  }
+  window.addEventListener('scroll', function(){
+    if (!ticking) { window.requestAnimationFrame(update); ticking = true; }
+  }, { passive: true });
+})();
+
+// Hero slider: 3 slides, dot nav, autoplay paused on hover/focus and off for
+// reduced-motion users. No library.
+(function(){
+  var track = document.getElementById('slider-track');
+  var dots = document.querySelectorAll('#slider-dots button');
+  var slider = document.getElementById('hero-slider');
+  if (!track || !dots.length) return;
+  var n = dots.length, i = 0, timer = null;
+  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function go(idx){
+    i = (idx + n) % n;
+    track.style.transform = 'translateX(-' + (i * 100) + '%)';
+    dots.forEach(function(d, k){ d.setAttribute('aria-current', k === i ? 'true' : 'false'); });
+  }
+  dots.forEach(function(d, k){ d.addEventListener('click', function(){ go(k); restart(); }); });
+  function tick(){ go(i + 1); }
+  function start(){ if (!reduced) timer = window.setInterval(tick, 5500); }
+  function stop(){ if (timer) { window.clearInterval(timer); timer = null; } }
+  function restart(){ stop(); start(); }
+  slider.addEventListener('mouseenter', stop);
+  slider.addEventListener('mouseleave', start);
+  slider.addEventListener('focusin', stop);
+  slider.addEventListener('focusout', start);
+  start();
+})();
+
+// Hero 3D tilt: the console-screenshot slider tilts toward the pointer on
+// desktop. CSS 3D transforms only (perspective + rotateX/Y), no library,
+// no extra bytes beyond this script. Pointer-fine devices only (mouse/
+// trackpad) — touch devices keep the slider flat, since a continuous
+// touch-tracked tilt fights with scrolling. Off for reduced-motion.
+(function(){
+  var hero = document.querySelector('.hero');
+  var slider = document.getElementById('hero-slider');
+  if (!hero || !slider) return;
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  if (!window.matchMedia('(pointer: fine)').matches) return;
+  hero.addEventListener('mousemove', function(e){
+    var r = hero.getBoundingClientRect();
+    var px = (e.clientX - r.left) / r.width - 0.5;
+    var py = (e.clientY - r.top) / r.height - 0.5;
+    var rotY = px * 10, rotX = py * -8;
+    slider.style.transform = 'rotateX(' + rotX + 'deg) rotateY(' + rotY + 'deg)';
+  });
+  hero.addEventListener('mouseleave', function(){
+    slider.style.transform = '';
+  });
+})();
+
+// Explore tabs: Simulations / Cases / Teachers, swapped client-side, no
+// navigation. Images inside inactive panels keep loading="lazy" so they
+// are not fetched until a panel is shown and scrolled to.
+(function(){
+  var tabs = document.querySelectorAll('#explore-tabs button');
+  tabs.forEach(function(btn){
+    btn.addEventListener('click', function(){
+      tabs.forEach(function(b){ b.setAttribute('aria-selected', 'false'); });
+      document.querySelectorAll('.tabpanel').forEach(function(p){ p.classList.remove('active'); });
+      btn.setAttribute('aria-selected', 'true');
+      document.getElementById(btn.dataset.panel).classList.add('active');
+    });
+  });
+})();
+
+// Syllabus request: builds a mailto: link client-side and opens it. No form
+// submission, no server, nothing stored (DEC-013 compliant - this never
+// transmits or saves the text anywhere, it only hands it to the visitor's
+// own mail client).
+(function(){
+  var btn = document.getElementById('syllabus-send');
+  if (!btn) return;
+  btn.addEventListener('click', function(){
+    var note = document.getElementById('syllabus-note').value.trim();
+    var subject = encodeURIComponent('Simulation request');
+    var body = encodeURIComponent((note || '(describe the topic or paste a syllabus line here)') + '\n\n— sent from aiprof.org.in');
+    window.location.href = 'mailto:hey@aiprof.org.in?subject=' + subject + '&body=' + body;
+  });
+})();
+
+// Copy-to-clipboard for the email address, since mailto: links do nothing on a
+// device with no mail app configured (common on shared lab computers).
 document.querySelectorAll('.copy-btn[data-copy-target]').forEach(function(btn){
   btn.addEventListener('click', function(){
     var text = document.getElementById(btn.dataset.copyTarget).textContent;

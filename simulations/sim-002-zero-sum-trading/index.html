@@ -33,6 +33,24 @@ footer{border-top:1px solid var(--rule);margin-top:32px;padding-top:12px;padding
   h2{break-before:page;border:none}h2:first-of-type{break-before:auto}
   table{font-size:9.5pt}a{color:inherit;text-decoration:none}
 }
+/* Console 3D preview: CSS 3D transforms only (perspective + rotateX/Y/
+   translateZ), no library, no extra image bytes — a fanned stack of the
+   console's own tab panels, rendered in markup. */
+.console-3d{margin:24px 0}
+.c3d-wrap{perspective:1100px;display:flex;justify-content:center;padding:18px 0}
+.c3d-stack{position:relative;width:260px;height:150px;transform-style:preserve-3d;transition:transform .15s ease-out}
+.c3d-panel{position:absolute;inset:0;background:var(--card);border:1px solid var(--rule);border-radius:8px;box-shadow:0 20px 40px -24px rgba(23,32,42,.35);padding:10px 14px}
+.c3d-chrome{display:flex;gap:5px;margin-bottom:8px}
+.c3d-chrome span{width:7px;height:7px;border-radius:50%;background:var(--rule);display:inline-block}
+.c3d-title{margin:0;font-weight:700;color:var(--ledger)}
+.c3d-line{margin:4px 0 0;font-size:.82rem;color:var(--muted)}
+.c3d-1{transform:translateZ(0px) translate(-18px,-14px) rotate(-3deg)}
+.c3d-2{transform:translateZ(26px) translate(6px,0) rotate(1deg)}
+.c3d-3{transform:translateZ(52px) translate(22px,16px) rotate(4deg)}
+.console-3d p.meta{text-align:center;margin-top:4px}
+@media (max-width:480px){.c3d-stack{width:220px;height:130px}}
+@media (prefers-reduced-motion: reduce){.c3d-stack{transition:none}}
+@media print{.console-3d{display:none}}
 </style>
 </head>
 <body>
@@ -41,13 +59,39 @@ footer{border-top:1px solid var(--rule);margin-top:32px;padding-top:12px;padding
   <p class="meta"><a href="../">Simulations</a> / SIM-002 · v1.0 · <span style="border:1px solid var(--ledger);border-radius:4px;padding:0 6px;color:var(--ledger);font-weight:600">Pilot</span> · Finance / Strategy · UG &amp; PG · 1 session of 60–75 min per round</p>
   <h1>Zero-Sum Trading</h1>
   <p>Students take a position on a company — <strong>Fund</strong> or <strong>Divest</strong> — and size it from ₹1 to ₹15 Cr, once before a team's investment pitch and once after. Every rupee staked on the wrong side is paid to those on the right side, in proportion to their stakes. Changing sides costs conviction.</p>
-  <p class="tags"><span>Classroom, 15–120 students</span><span>Facilitator-run</span><span>Offline-capable</span><span>No login</span></p>
+  <p style="color:var(--muted);font-size:.92rem;margin:4px 0 0">1 round = 1 class period, 60–75 minutes. Run it once, or run up to 10 rounds across a semester for a cumulative leaderboard.</p>
+  <p class="tags"><span>Classroom, 15–120 students</span><span>Facilitator-run</span><span>Offline-capable</span><span>No login</span><span>Solo practice available</span></p>
   <a class="cta" href="play.html">Open the facilitator console</a>
+  <a class="cta" style="background:transparent;border:1px solid var(--ledger);color:var(--ledger)" href="solo-play.html">Try it yourself — practice solo</a>
+  <a class="cta" style="background:transparent;border:1px solid var(--muted);color:var(--ink)" href="teaching-pack.pdf">Download teaching pack (PDF)</a>
 </header>
 <main>
 <nav class="toc" aria-label="On this page">
-  <a href="#theory">1 Theory</a> · <a href="#tool">2 Tool</a> · <a href="#reality">3 Reality</a> · <a href="#guide">Facilitator guide</a> · <a href="#brief">Student brief</a> · <a href="#rubric">Rubric</a> · <a href="#licence">Licence</a>
+  <a href="#theory">1 Theory</a> · <a href="#tool">2 Tool</a> · <a href="#factsheets">Fact sheets</a> · <a href="#reality">3 Reality</a> · <a href="#guide">Facilitator guide</a> · <a href="#brief">Student brief</a> · <a href="#rubric">Rubric</a> · <a href="#licence">Licence</a>
 </nav>
+
+<section class="console-3d noprint">
+  <div class="c3d-wrap" aria-hidden="true">
+    <div class="c3d-stack" id="c3d-stack">
+      <div class="c3d-panel c3d-1">
+        <div class="c3d-chrome"><span></span><span></span><span></span></div>
+        <p class="c3d-title">Setup</p>
+        <p class="c3d-line">Rounds: 10 · Penalty: off</p>
+      </div>
+      <div class="c3d-panel c3d-2">
+        <div class="c3d-chrome"><span></span><span></span><span></span></div>
+        <p class="c3d-title">Round 3 · Vote</p>
+        <p class="c3d-line">Fund ₹14 Cr · Divest ₹9 Cr</p>
+      </div>
+      <div class="c3d-panel c3d-3">
+        <div class="c3d-chrome"><span></span><span></span><span></span></div>
+        <p class="c3d-title">Standings</p>
+        <p class="c3d-line">₹118 Cr · ₹104 Cr · ₹97 Cr …</p>
+      </div>
+    </div>
+  </div>
+  <p class="meta">A preview of the console's own tabs, not a mockup of the data — <a href="play.html">open the real thing →</a></p>
+</section>
 
 <!-- ============ THEORY ============ -->
 <h2 id="theory">1 Theory</h2>
@@ -80,7 +124,33 @@ footer{border-top:1px solid var(--rule);margin-top:32px;padding-top:12px;padding
 
 <!-- ============ TOOL ============ -->
 <h2 id="tool">2 Tool</h2>
+<p>The console doesn't use AI — it runs fixed scoring rules, so every student's marks are reproducible and checkable, which matters more here than novelty. <a href="../">The AI Prof's</a> AI-run simulations (Reality Engine, in rebuild) live alongside this one; each simulation page says plainly whether it's AI-run or rule-based.</p>
 <p>The <a href="play.html">facilitator console</a> scores each round, keeps cumulative standings across rounds, and produces debrief data. It runs entirely in the browser: no account, no server, no data transmitted. It works on a phone and keeps working offline once loaded.</p>
+<p>Want to feel the mechanic before bringing it to a class? <a href="solo-play.html">Practice solo</a> against a simulated class of 17 investors, generated fresh each time, using the same scoring engine as the real console.</p>
+
+<h3 id="factsheets">Starter fact sheets</h3>
+<p>Each round needs a one-page case with a defensible Fund/Divest question. Here are six ready to use — read one aloud or hand it out, then run the round. All companies are fictional, built for this exercise. Add your own for the rest of a 10-round course, or reuse these across sections.</p>
+<div class="box" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px;background:transparent;border:0;padding:0">
+  <div class="box"><strong>1. Chakra Retail Ltd</strong> <span class="meta">Retail</span>
+    <p>A 140-store value-fashion chain. Same-store sales have slowed for two quarters while a new online arm burns cash.</p>
+    <p class="meta"><em>Question:</em> Fund or Divest, given the last two years of strategy?</p></div>
+  <div class="box"><strong>2. Bluewave Logistics</strong> <span class="meta">Logistics</span>
+    <p>A mid-sized trucking and warehousing firm that just signed a five-year contract with one client covering 40% of revenue.</p>
+    <p class="meta"><em>Question:</em> Fund or Divest, given this new client concentration?</p></div>
+  <div class="box"><strong>3. Nimbus FoodTech</strong> <span class="meta">FoodTech</span>
+    <p>A cloud-kitchen brand expanding to a second city after two loss-making years in its first, where it recently broke even.</p>
+    <p class="meta"><em>Question:</em> Fund or Divest this expansion?</p></div>
+  <div class="box"><strong>4. Solaris Textiles</strong> <span class="meta">Textiles</span>
+    <p>An export-focused textile manufacturer facing a new tariff in its largest overseas market, announced three weeks ago.</p>
+    <p class="meta"><em>Question:</em> Fund or Divest after the tariff announcement?</p></div>
+  <div class="box"><strong>5. Kiranwala Grocery Tech</strong> <span class="meta">Retail / Tech</span>
+    <p>A B2B app that lets neighbourhood grocers order stock wholesale. Growing fast in two states, still unprofitable, and a well-funded rival just entered its home state.</p>
+    <p class="meta"><em>Question:</em> Fund or Divest, given the new rival?</p></div>
+  <div class="box"><strong>6. Veda Diagnostics</strong> <span class="meta">Healthcare</span>
+    <p>A diagnostic-lab chain that recently centralised testing into three regional hubs to cut costs, causing some test results to take a day longer than before.</p>
+    <p class="meta"><em>Question:</em> Fund or Divest, given the slower turnaround?</p></div>
+</div>
+<p class="meta">Pair each fact sheet with a presenting team who argues one side (assigned by you, or drawn by lot) — see guide §2.</p>
 <div class="box">
   <strong>What the console needs from you each round</strong>
   <ul>
@@ -198,14 +268,19 @@ footer{border-top:1px solid var(--rule);margin-top:32px;padding-top:12px;padding
 <h3>Changing your mind</h3>
 <p>You may switch sides between Pre and Post, but your Post value must be <strong>at least ₹1 Cr higher</strong> than your Pre value (if your Pre value was ₹15 Cr, you may stay at 15). If you switch without raising your value, your entry is void and you lose <strong>₹5 Cr</strong>.</p>
 <h3>Worked example</h3>
+<p class="meta">A small 8-student round, verdict <strong>Divest</strong>, so every number below adds up and you can check it yourself.</p>
 <div class="tbl"><table>
 <tr><th>Student</th><th>Pre</th><th>Post</th><th>Verdict: Divest</th><th>Round P&amp;L</th></tr>
 <tr><td>A</td><td>Divest 8</td><td>Divest 15</td><td>Right</td><td>+15/37 × 46 = <strong>+18.65</strong></td></tr>
 <tr><td>B</td><td>Fund 2</td><td>Divest 7</td><td>Right (valid switch: 7 ≥ 2+1)</td><td>+7/37 × 46 = <strong>+8.70</strong></td></tr>
+<tr><td>E</td><td>Divest 15</td><td>Divest 15</td><td>Right</td><td>+15/37 × 46 = <strong>+18.65</strong></td></tr>
 <tr><td>C</td><td>Fund 10</td><td>Fund 12</td><td>Wrong</td><td><strong>−12</strong></td></tr>
 <tr><td>D</td><td>Fund 7</td><td>Divest 5</td><td>Void (switched, value fell)</td><td><strong>−5</strong> penalty</td></tr>
+<tr><td>F</td><td>Fund 15</td><td>Fund 15</td><td>Wrong</td><td><strong>−15</strong></td></tr>
+<tr><td>G</td><td>Fund 15</td><td>Fund 15</td><td>Wrong</td><td><strong>−15</strong></td></tr>
+<tr><td>H</td><td>Fund 4</td><td>Fund 4</td><td>Wrong</td><td><strong>−4</strong></td></tr>
 </table></div>
-<p class="meta">From a real class round: the right side staked ₹37 Cr in total, the wrong side ₹46 Cr.</p>
+<p class="meta">Right side (Divest): 15 + 7 + 15 = ₹37 Cr. Wrong side (Fund): 12 + 15 + 15 + 4 = ₹46 Cr. D is void, so its ₹5 Cr penalty sits outside the pool. The pool (₹46 Cr) is split among the right side in proportion to their stake: A and E each staked 15 of the 37 Cr right-side total, so each gets 15/37 × 46; B staked 7 of 37, so gets 7/37 × 46.</p>
 <h3>Rules that get people</h3>
 <ul>
   <li>Miss either vote and you are not scored that round. Take part in at least 3 of 10 rounds to be ranked.</li>
@@ -233,5 +308,31 @@ footer{border-top:1px solid var(--rule);margin-top:32px;padding-top:12px;padding
 <p class="meta">Version 1.0 (October 2026). Scoring engine ported from the classroom Colab notebook V2.4. Feedback: <a href="mailto:hey@aiprof.org.in">hey@aiprof.org.in</a></p>
 </main>
 <footer>The AI Prof · aiprof.org.in · No accounts, no analytics.</footer>
+<script>
+// Console preview tilt: CSS 3D transforms only (perspective + rotateX/Y),
+// no library. Pointer-fine devices get a tilt that follows the cursor;
+// touch devices get a one-time gentle settle so the depth still reads,
+// without needing continuous finger tracking. Off for reduced-motion.
+(function(){
+  var wrap = document.querySelector('.c3d-wrap');
+  var stack = document.getElementById('c3d-stack');
+  if (!wrap || !stack) return;
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  if (window.matchMedia('(pointer: fine)').matches) {
+    wrap.addEventListener('mousemove', function(e){
+      var r = wrap.getBoundingClientRect();
+      var px = (e.clientX - r.left) / r.width - 0.5;
+      var py = (e.clientY - r.top) / r.height - 0.5;
+      stack.style.transform = 'rotateX(' + (py * -14) + 'deg) rotateY(' + (px * 18) + 'deg)';
+    });
+    wrap.addEventListener('mouseleave', function(){
+      stack.style.transform = 'rotateX(6deg) rotateY(-10deg)';
+    });
+    stack.style.transform = 'rotateX(6deg) rotateY(-10deg)';
+  } else {
+    stack.style.transform = 'rotateX(6deg) rotateY(-10deg)';
+  }
+})();
+</script>
 </body>
 </html>

@@ -43,6 +43,7 @@
       <div><label for="level">Level</label><select id="level"><option>Any</option><option>UG</option><option>PG</option></select></div>
     </div>
     <p class="result-count" id="count">2 simulations</p>
+    <p class="result-count hidden" id="empty-msg">No simulations match those filters. <a href="#" id="clear-filters">Clear filters</a> or <a href="../about/#contribute">suggest one</a>.</p>
   </section>
 
   <section style="padding-top:0">
@@ -52,19 +53,20 @@
         <div style="display:flex;justify-content:space-between;gap:8px"><span class="tag">Pilot</span><span class="meta">UG / PG</span></div>
         <h3>Zero-Sum Trading</h3>
         <p>Fund or Divest a company before and after a team pitch; the losing side's stakes are paid to the winning side, in proportion. Teaches investment theses, position sizing, belief revision.</p>
-        <div class="tagset"><span>In browser</span><span>Finance / Strategy</span><span>60–75 min / round</span></div>
+        <div class="tagset"><span>In browser</span><span>Solo practice</span><span>Finance / Strategy</span><span>60–75 min / round</span></div>
         <div class="status-row"><span>Guide ●</span><span>Brief ●</span><span>Rubric ●</span></div>
       </a>
 
       <div class="card dashed" data-mode="prompt" data-domain="Strategy" data-level="PG" data-text="reality engine ai adjudication red team buy short">
-        <div class="thumb-placeholder" aria-hidden="true">In rebuild</div>
+        <div class="thumb-placeholder" aria-hidden="true">Coming soon</div>
         <div style="display:flex;justify-content:space-between;gap:8px"><span class="meta">In rebuild</span><span class="meta">PG</span></div>
         <h3>Reality Engine</h3>
-        <p>Teams pitch a market strategy; a red team attacks it; an AI adjudicator returns a binary Fund or Divest verdict.</p>
+        <p>Teams pitch a market strategy; a red team attacks it; an AI adjudicator returns a binary Fund or Divest verdict. This one genuinely runs on AI.</p>
         <div class="tagset"><span>Prompt pack</span><span>Finance / Strategy</span></div>
+        <p class="link-strong" style="font-size:.85rem;margin:0"><a href="mailto:hey@aiprof.org.in?subject=Notify%20me%3A%20Reality%20Engine">Ask to be notified when it's live →</a></p>
       </div>
 
-      <div class="card dashed" data-mode="all" data-domain="" data-level="" data-text="suggest a topic contribute">
+      <div class="card dashed" data-filler="true" data-mode="all" data-domain="" data-level="" data-text="suggest a topic contribute">
         <h3>Have a simulation that works in your class?</h3>
         <p>Share it. We package it with a guide and rubric and credit you.</p>
         <a class="link-strong" href="../about/#contribute">Contribute →</a>
@@ -92,6 +94,15 @@ document.querySelector('.menu-toggle').addEventListener('click', function(){
   var q = document.getElementById('q'), domain = document.getElementById('domain'), level = document.getElementById('level');
   var mode = 'all', cards = Array.prototype.slice.call(document.querySelectorAll('#sim-list > [data-text]'));
   var count = document.getElementById('count');
+  var emptyMsg = document.getElementById('empty-msg');
+  var clearLink = document.getElementById('clear-filters');
+  if (clearLink) clearLink.addEventListener('click', function(e){
+    e.preventDefault();
+    q.value = ''; domain.value = 'Any'; level.value = 'Any'; mode = 'all';
+    document.querySelectorAll('#runtime-filters button').forEach(function(x){x.classList.remove('active');});
+    document.querySelector('#runtime-filters button[data-mode="all"]').classList.add('active');
+    apply();
+  });
   document.querySelectorAll('#runtime-filters button').forEach(function(b){
     b.addEventListener('click', function(){
       document.querySelectorAll('#runtime-filters button').forEach(function(x){x.classList.remove('active');});
@@ -109,9 +120,39 @@ document.querySelector('.menu-toggle').addEventListener('click', function(){
       var okLevel = l === 'Any' || !c.dataset.level || c.dataset.level.indexOf(l) !== -1;
       var show = okMode && okText && okDomain && okLevel;
       c.style.display = show ? '' : 'none';
-      if (show) shown++;
+      if (show && c.dataset.filler !== 'true') shown++;
     });
     count.textContent = shown + (shown === 1 ? ' simulation' : ' simulations');
+    emptyMsg.classList.toggle('hidden', shown !== 0);
+  }
+})();
+
+// Card 3D tilt: CSS perspective + rotateX/Y only, no library. Pointer-fine
+// devices (mouse/trackpad) get a continuous tilt-toward-cursor; touch
+// devices get a brief tilt "pulse" on tap instead, since tracking a finger
+// would fight with scrolling the page. Off entirely for reduced-motion.
+(function(){
+  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduced) return;
+  var cards = document.querySelectorAll('#sim-list .card');
+  if (window.matchMedia('(pointer: fine)').matches) {
+    cards.forEach(function(card){
+      card.addEventListener('mousemove', function(e){
+        var r = card.getBoundingClientRect();
+        var px = (e.clientX - r.left) / r.width - 0.5;
+        var py = (e.clientY - r.top) / r.height - 0.5;
+        card.style.transform = 'perspective(900px) rotateX(' + (py * -6) + 'deg) rotateY(' + (px * 8) + 'deg) translateY(-2px)';
+      });
+      card.addEventListener('mouseleave', function(){ card.style.transform = ''; });
+    });
+  } else {
+    cards.forEach(function(card){
+      card.addEventListener('touchstart', function(){
+        card.classList.remove('tap-pulse');
+        void card.offsetWidth; // restart animation if tapped again quickly
+        card.classList.add('tap-pulse');
+      }, { passive: true });
+    });
   }
 })();
 </script>
