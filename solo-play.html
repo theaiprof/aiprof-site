@@ -1,0 +1,406 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Zero-Sum Trading — Practice Solo</title>
+<meta name="description" content="Play SIM-002 Zero-Sum Trading on your own against a simulated class of 17 investors. Free, no login, runs entirely in your browser.">
+<link rel="icon" type="image/svg+xml" href="../../assets/img/logo-mark.svg">
+<style>
+:root{--paper:#F6F3EC;--ink:#17202A;--ledger:#1E5A47;--marigold:#E39B2D;--card:#FFFFFF;--muted:#5A6270;--rule:#D8D2C4;--bad:#9B2C2C;--good:#1E5A47}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font:17px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans","Noto Sans Devanagari","Noto Sans Kannada",sans-serif}
+h1,h2,h3{font-family:"Iowan Old Style","Charter","Georgia",serif;line-height:1.2;margin:0 0 .4rem}
+h1{font-size:1.5rem}h2{font-size:1.25rem}h3{font-size:1.05rem}
+header,main,footer{max-width:760px;margin:0 auto;padding:0 16px}
+header{padding-top:16px;padding-bottom:10px;border-bottom:1px solid var(--rule);display:flex;flex-wrap:wrap;gap:10px;align-items:baseline;justify-content:space-between}
+.wm{font-family:"Iowan Old Style","Charter","Georgia",serif;font-weight:700;color:var(--ledger);text-decoration:none}
+.sub{color:var(--muted);font-size:.9rem;margin:2px 0 0;width:100%}
+.hud{display:flex;gap:18px;font-size:.85rem;color:var(--muted)}
+.hud b{color:var(--ink);font-variant-numeric:tabular-nums}
+.card{background:var(--card);border:1px solid var(--rule);border-radius:8px;padding:20px;margin:16px 0}
+.tag{display:inline-block;font-size:.72rem;font-weight:700;border:1px solid var(--ledger);color:var(--ledger);border-radius:4px;padding:1px 8px}
+.tag.demo{border-color:var(--marigold);color:#8a5a0f;background:#fff6e8}
+fieldset{border:1px solid var(--rule);border-radius:6px;padding:12px;margin:0}
+legend{font-size:.85rem;color:var(--muted);padding:0 4px}
+.sidebyside{display:flex;flex-wrap:wrap;gap:8px}
+.choice{flex:1 1 140px;display:flex;align-items:center;justify-content:center;gap:8px;min-height:48px;border:1px solid var(--muted);border-radius:4px;background:#fff;cursor:pointer;font-weight:600}
+.choice input{margin:0}
+.choice.sel{border-color:var(--ledger);background:var(--ledger);color:#fff}
+.sliderow{display:flex;align-items:center;gap:12px;margin-top:10px}
+.sliderow input[type=range]{flex:1 1 auto;height:44px}
+.sliderow b{min-width:64px;text-align:right;font-variant-numeric:tabular-nums;color:var(--ledger)}
+select{width:100%;min-height:48px;padding:0 10px;font:inherit;border:1px solid var(--rule);border-radius:4px;background:#fff;color:var(--ink)}
+button{min-height:48px;padding:0 20px;border-radius:4px;border:1px solid var(--ledger);background:#fff;color:var(--ledger);font:inherit;font-weight:700;cursor:pointer}
+button.primary{background:var(--marigold);border-color:var(--marigold);color:var(--ink)}
+button:disabled{opacity:.4;cursor:not-allowed}
+.row{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px}
+.kpi{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin-top:14px}
+.kpi div{border:1px solid var(--rule);border-radius:6px;padding:10px}
+.kpi b{display:block;font-size:1.3rem;font-variant-numeric:tabular-nums;font-family:"Iowan Old Style","Charter","Georgia",serif}
+.pos{color:var(--good)}.neg{color:var(--bad)}
+.note{font-size:.88rem;color:var(--muted)}
+.hidden{display:none !important}
+footer{border-top:1px solid var(--rule);margin-top:32px;padding-top:12px;padding-bottom:28px;font-size:.85rem;color:var(--muted)}
+@media (max-width:480px){.sidebyside{flex-direction:column}}
+</style>
+</head>
+<body>
+<header>
+  <a class="wm" href="../../">The AI Prof</a>
+  <span class="hud"><span>Round <b id="hud-round">1</b>/<b id="hud-total">3</b></span><span>Cumulative <b id="hud-score">₹100 Cr</b></span></span>
+  <p class="sub">SIM-002 · Practice Solo <span class="tag demo">Demo data</span> · <a href="./">Guide, brief and rubric</a> · <a href="play.html">Running a real class? Open the facilitator console</a></p>
+</header>
+<main>
+
+<!-- INTRO -->
+<section class="card" id="screen-intro">
+  <h2>Play it yourself before you run it in class</h2>
+  <p>You take the investor seat. Three rounds, three fictional companies, a simulated class of 17 other investors generated fresh each time you play. The scoring is the exact rule set from the <a href="./#guide">facilitator guide §5</a> — nothing here is simplified for practice.</p>
+  <p class="note">This is a solo demo with made-up companies and a simulated class, so you can feel the mechanic before bringing it to a real room. A live class uses the <a href="play.html">facilitator console</a> with your own students and your own verdicts. Nothing on this page is saved or sent anywhere — refresh and it starts over.</p>
+  <button class="primary" id="btn-start">Start round 1</button>
+</section>
+
+<!-- PRE VOTE -->
+<section class="card hidden" id="screen-pre">
+  <p class="tag" id="pre-domain">Finance</p>
+  <h2 id="pre-company">Company</h2>
+  <p id="pre-scenario" class="note"></p>
+  <p><strong>Question:</strong> <span id="pre-question"></span></p>
+  <fieldset style="margin-top:14px">
+    <legend>Pre vote — before the pitch</legend>
+    <div class="sidebyside" id="pre-stake">
+      <label class="choice"><input type="radio" name="pre-stake" value="Fund">Fund</label>
+      <label class="choice"><input type="radio" name="pre-stake" value="Divest">Divest</label>
+    </div>
+    <div class="sliderow">
+      <input type="range" id="pre-value" min="1" max="15" value="8">
+      <b id="pre-value-out">₹8 Cr</b>
+    </div>
+  </fieldset>
+  <div class="row"><button class="primary" id="btn-pre-submit" disabled>Lock in Pre vote</button></div>
+</section>
+
+<!-- PITCH -->
+<section class="card hidden" id="screen-pitch">
+  <p class="tag" id="pitch-domain">Finance</p>
+  <h2 id="pitch-company"></h2>
+  <h3>The presenting team's pitch</h3>
+  <p id="pitch-text"></p>
+  <p class="note">Your Pre vote is locked: <strong id="pitch-recap"></strong>. Read the pitch, then cast your Post vote. Remember: switching sides costs you — your Post value must rise by at least ₹1 Cr to switch (unless you were already at ₹15 Cr).</p>
+  <div class="row"><button class="primary" id="btn-to-post">Continue to Post vote</button></div>
+</section>
+
+<!-- POST VOTE -->
+<section class="card hidden" id="screen-post">
+  <h2>Post vote — after the pitch</h2>
+  <p class="note" id="post-recap"></p>
+  <fieldset>
+    <legend>Your position now</legend>
+    <div class="sidebyside" id="post-stake">
+      <label class="choice"><input type="radio" name="post-stake" value="Fund">Fund</label>
+      <label class="choice"><input type="radio" name="post-stake" value="Divest">Divest</label>
+    </div>
+    <div class="sliderow">
+      <input type="range" id="post-value" min="1" max="15" value="8">
+      <b id="post-value-out">₹8 Cr</b>
+    </div>
+  </fieldset>
+  <fieldset style="margin-top:10px">
+    <legend>Strategic driver behind this decision</legend>
+    <select id="post-driver">
+      <option>Market growth and demand</option>
+      <option>Cost structure and margins</option>
+      <option>Competitive position / moat</option>
+      <option>Leadership and execution</option>
+      <option>Balance sheet and capital</option>
+      <option>Regulatory or macro risk</option>
+    </select>
+  </fieldset>
+  <div class="row"><button class="primary" id="btn-post-submit">Reveal the verdict</button></div>
+</section>
+
+<!-- RESULT -->
+<section class="card hidden" id="screen-result">
+  <h2>Verdict: <span id="result-verdict"></span></h2>
+  <p id="result-headline"></p>
+  <div class="kpi">
+    <div><b id="k-pnl">—</b><span class="note">Your round P&amp;L</span></div>
+    <div><b id="k-rank">—</b><span class="note">Your rank this round</span></div>
+    <div><b id="k-right">—</b><span class="note">Class on the right side</span></div>
+    <div><b id="k-pool">—</b><span class="note">Pool paid out</span></div>
+  </div>
+  <p class="note" id="result-explain" style="margin-top:14px"></p>
+  <div class="row"><button class="primary" id="btn-next">Next round</button></div>
+</section>
+
+<!-- FINAL -->
+<section class="card hidden" id="screen-final">
+  <h2>Three rounds done</h2>
+  <p id="final-summary"></p>
+  <div class="kpi">
+    <div><b id="f-score">—</b><span class="note">Final cumulative score</span></div>
+    <div><b id="f-record">—</b><span class="note">Right / Wrong / Void calls</span></div>
+  </div>
+  <h3 style="margin-top:20px">Reflect (LO5)</h3>
+  <p class="note">Was any round you lost actually a good decision given what you knew at the time? Was any round you won actually a lucky one? This isn't collected anywhere — it's for you.</p>
+  <div class="row">
+    <button id="btn-replay">Play again</button>
+    <a href="./"><button>Back to the guide</button></a>
+  </div>
+</section>
+
+</main>
+<footer>The AI Prof · aiprof.org.in · No accounts, no analytics, nothing saved once you close this tab.</footer>
+
+<script>
+(function(){
+"use strict";
+
+var COMPANIES = [
+  {
+    domain: "Retail",
+    company: "Chakra Retail Ltd",
+    scenario: "A 140-store value-fashion chain. Same-store sales have slowed for two quarters while a new online arm burns cash.",
+    question: "Should a long-term investor Fund or Divest from Chakra Retail, given the last two years of strategy?",
+    pitch: "The presenting team argues Fund: the online arm is 9% of revenue and growing 60% a year, store rents are being renegotiated down, and management has cut three loss-making formats. They say the slowdown is temporary, tied to one bad festive season, not a structural problem."
+  },
+  {
+    domain: "Logistics",
+    company: "Bluewave Logistics",
+    scenario: "A mid-sized trucking and warehousing firm that recently signed a five-year contract with one large e-commerce client covering 40% of its revenue.",
+    question: "Should a long-term investor Fund or Divest from Bluewave Logistics, given its new concentration in one client?",
+    pitch: "The presenting team argues Divest: a single client at 40% of revenue gives that client enormous pricing leverage at the next renewal, and Bluewave has taken on debt to buy trucks for this one contract. If the client leaves, the fleet becomes a stranded asset."
+  },
+  {
+    domain: "FoodTech",
+    company: "Nimbus FoodTech",
+    scenario: "A cloud-kitchen brand expanding into a second city after two years of losses in its first city, where it only recently reached break-even.",
+    question: "Should a long-term investor Fund or Divest from Nimbus FoodTech's expansion?",
+    pitch: "The presenting team argues Fund: unit economics in the first city took 18 months to prove out and are now stable, the playbook is documented, and the second city has a larger population of the exact customer segment that made the first city work."
+  },
+  {
+    domain: "Textiles",
+    company: "Solaris Textiles",
+    scenario: "An export-focused textile manufacturer facing a new tariff in its largest overseas market, announced three weeks ago.",
+    question: "Should a long-term investor Fund or Divest from Solaris Textiles after the tariff announcement?",
+    pitch: "The presenting team argues Fund: the tariff applies to a product line that is only 12% of exports, Solaris already has a plant in a tariff-exempt country that can absorb the shifted orders within two quarters, and competitors without that second plant are worse hit."
+  }
+];
+
+function shuffle(a){ a = a.slice(); for (var i = a.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)); var t = a[i]; a[i] = a[j]; a[j] = t; } return a; }
+function rint(min, max){ return Math.floor(Math.random() * (max - min + 1)) + min; }
+function fmt(n){ return (n < 0 ? "−₹" : "₹") + Math.abs(Math.round(n * 100) / 100) + " Cr"; }
+
+// ---- scoring engine: a direct implementation of guide §5 ----
+// entry = { id, preStake, preValue, postStake, postValue }
+function scoreRound(entries, verdict){
+  var out = entries.map(function(e){ return { id: e.id, preStake: e.preStake, preValue: e.preValue, postStake: e.postStake, postValue: e.postValue, status: "valid", pnl: 0 }; });
+
+  out.forEach(function(e){
+    if (!e.postStake || e.postValue < 1 || e.postValue > 15 || !e.preStake || e.preValue < 1 || e.preValue > 15) {
+      e.status = "invalid"; return;
+    }
+    if (e.postStake !== e.preStake) {
+      if (e.preValue < 15 && e.postValue < e.preValue + 1) { e.status = "void"; e.pnl = -5; return; }
+    }
+  });
+
+  var valid = out.filter(function(e){ return e.status === "valid"; });
+  var right = valid.filter(function(e){ return e.postStake === verdict; });
+  var wrong = valid.filter(function(e){ return e.postStake !== verdict; });
+  var pool = wrong.reduce(function(s, e){ return s + e.postValue; }, 0);
+  var rightTotal = right.reduce(function(s, e){ return s + e.postValue; }, 0);
+
+  wrong.forEach(function(e){ e.pnl = -e.postValue; });
+  if (rightTotal > 0 && wrong.length > 0) {
+    right.forEach(function(e){ e.pnl = (e.postValue / rightTotal) * pool; });
+  }
+  // if everyone valid agrees, no money moves (right.pnl stays 0)
+
+  out.sort(function(a, b){
+    function rank(e){ return e.status === "valid" ? 0 : 1; }
+    if (rank(a) !== rank(b)) return rank(a) - rank(b);
+    if (b.pnl !== a.pnl) return b.pnl - a.pnl;
+    if (b.postValue !== a.postValue) return b.postValue - a.postValue;
+    return String(a.id).localeCompare(String(b.id));
+  });
+
+  return { entries: out, pool: pool, rightCount: right.length, wrongCount: wrong.length };
+}
+
+// ---- generate a simulated class of 17 other investors for one round ----
+function simulateClass(n){
+  var list = [];
+  for (var i = 0; i < n; i++){
+    var preStake = Math.random() < 0.5 ? "Fund" : "Divest";
+    var preValue = rint(1, 15);
+    // after the pitch, some fraction drift toward Fund-leaning sentiment with noise
+    var drift = Math.random();
+    var postStake = preStake;
+    var postValue = preValue;
+    if (drift < 0.22) { // switches side
+      postStake = preStake === "Fund" ? "Divest" : "Fund";
+      var minRaise = preValue < 15 ? preValue + 1 : preValue;
+      postValue = Math.min(15, Math.max(minRaise, preValue + rint(1, 4)));
+      if (Math.random() < 0.08 && preValue < 15) postValue = preValue; // occasional rule-break -> void
+    } else {
+      postValue = Math.min(15, Math.max(1, preValue + rint(-2, 3)));
+    }
+    list.push({ id: "S" + (i + 1), preStake: preStake, preValue: preValue, postStake: postStake, postValue: postValue });
+  }
+  return list;
+}
+
+// ---- state ----
+var ROUND_TOTAL = 3;
+var cumulative = 100;
+var record = { right: 0, wrong: 0, void: 0 };
+var pool = shuffle(COMPANIES);
+var round = 0;
+var current = null; // { company, verdictSide, pre, classmates }
+
+var el = {};
+["hud-round","hud-total","hud-score",
+ "screen-intro","screen-pre","screen-pitch","screen-post","screen-result","screen-final",
+ "pre-domain","pre-company","pre-scenario","pre-question","pre-value","pre-value-out","btn-pre-submit",
+ "pitch-domain","pitch-company","pitch-text","pitch-recap","btn-to-post",
+ "post-recap","post-value","post-value-out","post-driver","btn-post-submit",
+ "result-verdict","result-headline","k-pnl","k-rank","k-right","k-pool","result-explain","btn-next",
+ "final-summary","f-score","f-record","btn-replay","btn-start"
+].forEach(function(id){ el[id] = document.getElementById(id); });
+
+el["hud-total"].textContent = ROUND_TOTAL;
+
+function show(id){
+  ["screen-intro","screen-pre","screen-pitch","screen-post","screen-result","screen-final"].forEach(function(s){
+    document.getElementById(s).classList.toggle("hidden", s !== id);
+  });
+}
+
+function wireChoiceGroup(containerId, radioName){
+  var box = document.getElementById(containerId);
+  box.querySelectorAll(".choice").forEach(function(label){
+    var input = label.querySelector("input");
+    input.addEventListener("change", function(){
+      box.querySelectorAll(".choice").forEach(function(l){ l.classList.remove("sel"); });
+      label.classList.add("sel");
+      onChoiceChanged();
+    });
+  });
+}
+function selected(containerId){
+  var checked = document.querySelector("#" + containerId + " input:checked");
+  return checked ? checked.value : null;
+}
+function onChoiceChanged(){
+  el["btn-pre-submit"].disabled = !selected("pre-stake");
+}
+wireChoiceGroup("pre-stake", "pre-stake");
+wireChoiceGroup("post-stake", "post-stake");
+
+el["pre-value"].addEventListener("input", function(){ el["pre-value-out"].textContent = "₹" + this.value + " Cr"; });
+el["post-value"].addEventListener("input", function(){ el["post-value-out"].textContent = "₹" + this.value + " Cr"; });
+
+function startRound(){
+  round += 1;
+  current = {};
+  current.company = pool[(round - 1) % pool.length];
+  current.verdictSide = Math.random() < 0.5 ? "Fund" : "Divest"; // sealed, not shown yet
+
+  el["hud-round"].textContent = round;
+  el["pre-domain"].textContent = current.company.domain;
+  el["pre-company"].textContent = current.company.company;
+  el["pre-scenario"].textContent = current.company.scenario;
+  el["pre-question"].textContent = current.company.question;
+  document.querySelectorAll("#pre-stake .choice").forEach(function(l){ l.classList.remove("sel"); });
+  document.querySelectorAll("#pre-stake input").forEach(function(i){ i.checked = false; });
+  el["pre-value"].value = 8; el["pre-value-out"].textContent = "₹8 Cr";
+  el["btn-pre-submit"].disabled = true;
+  show("screen-pre");
+}
+
+el["btn-start"].addEventListener("click", startRound);
+
+el["btn-pre-submit"].addEventListener("click", function(){
+  current.pre = { stake: selected("pre-stake"), value: parseInt(el["pre-value"].value, 10) };
+  el["pitch-domain"].textContent = current.company.domain;
+  el["pitch-company"].textContent = current.company.company;
+  el["pitch-text"].textContent = current.company.pitch;
+  el["pitch-recap"].textContent = current.pre.stake + " ₹" + current.pre.value + " Cr";
+  show("screen-pitch");
+});
+
+el["btn-to-post"].addEventListener("click", function(){
+  el["post-recap"].textContent = "Your Pre vote was " + current.pre.stake + " at ₹" + current.pre.value + " Cr.";
+  document.querySelectorAll("#post-stake .choice").forEach(function(l, i){
+    l.classList.toggle("sel", false);
+    l.querySelector("input").checked = (l.querySelector("input").value === current.pre.stake);
+    if (l.querySelector("input").checked) l.classList.add("sel");
+  });
+  el["post-value"].value = current.pre.value;
+  el["post-value-out"].textContent = "₹" + current.pre.value + " Cr";
+  show("screen-post");
+});
+
+el["btn-post-submit"].addEventListener("click", function(){
+  var postStake = selected("post-stake") || current.pre.stake;
+  var postValue = parseInt(el["post-value"].value, 10);
+  var classmates = simulateClass(17);
+  var all = [{ id: "YOU", preStake: current.pre.stake, preValue: current.pre.value, postStake: postStake, postValue: postValue }].concat(classmates);
+  var scored = scoreRound(all, current.verdictSide);
+
+  var you = scored.entries.filter(function(e){ return e.id === "YOU"; })[0];
+  var rankIdx = scored.entries.indexOf(you) + 1;
+
+  if (you.status === "void") record.void++;
+  else if (you.pnl > 0 || (you.postStake === current.verdictSide)) record.right++;
+  else record.wrong++;
+
+  cumulative = Math.max(0, cumulative + you.pnl);
+  el["hud-score"].textContent = fmt(cumulative);
+
+  el["result-verdict"].textContent = current.verdictSide;
+  var yours = (you.postStake === current.verdictSide) ? "right" : (you.status === "void" ? "void" : "wrong");
+  el["result-headline"].textContent = you.status === "void"
+    ? "Your entry was void — you switched sides without raising your stake enough."
+    : ("You were " + (yours === "right" ? "right." : "wrong.") + " You staked " + you.postValue + " on " + you.postStake + ".");
+
+  el["k-pnl"].textContent = fmt(you.pnl);
+  el["k-pnl"].className = you.pnl > 0 ? "pos" : (you.pnl < 0 ? "neg" : "");
+  el["k-rank"].textContent = rankIdx + " of " + scored.entries.length;
+  el["k-right"].textContent = scored.rightCount + " of " + (scored.rightCount + scored.wrongCount);
+  el["k-pool"].textContent = fmt(scored.pool);
+
+  var explain = you.status === "void"
+    ? "The switching rule: once you move from " + current.pre.stake + " to " + postStake + ", your Post value must beat your Pre value by at least ₹1 Cr, unless your Pre value was already ₹15 Cr."
+    : (yours === "right"
+        ? "The " + scored.wrongCount + " wrong entries lost " + fmt(scored.pool) + " between them, shared among the " + scored.rightCount + " right entries in proportion to their stake."
+        : "Your stake went to the pool shared among the " + scored.rightCount + " investors on " + current.verdictSide + ".");
+  el["result-explain"].textContent = explain;
+
+  show("screen-result");
+});
+
+el["btn-next"].addEventListener("click", function(){
+  if (round >= ROUND_TOTAL) {
+    el["final-summary"].textContent = "Over " + ROUND_TOTAL + " rounds against a fresh simulated class each time, you ended at " + fmt(cumulative) + " from a starting ₹100 Cr.";
+    el["f-score"].textContent = fmt(cumulative);
+    el["f-record"].textContent = record.right + " / " + record.wrong + " / " + record.void;
+    show("screen-final");
+  } else {
+    startRound();
+  }
+});
+
+el["btn-replay"].addEventListener("click", function(){
+  cumulative = 100; round = 0; record = { right: 0, wrong: 0, void: 0 };
+  pool = shuffle(COMPANIES);
+  el["hud-score"].textContent = fmt(cumulative);
+  show("screen-intro");
+});
+
+})();
+</script>
+</body>
+</html>
